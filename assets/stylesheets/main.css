@@ -208,17 +208,17 @@ kbd { display: inline-block; margin: 0 0.125em; padding: 0.125em 0.5em; border: 
 
 h1, h2, h3, h4, h5, h6 { font-family: "Fira Sans", sans-serif; text-rendering: optimizeLegibility; /* enable common ligatures and kerning */ }
 
-h1 { font-size: 20.73852px; }
-@media screen and (min-width: 320px) { h1 { font-size: calc(20.73852px + 24.39924 * ((100vw - 320px) / 960)); } }
-@media screen and (min-width: 1280px) { h1 { font-size: 45.13776px; } }
+h1 { font-size: 20.7385152499px; }
+@media screen and (min-width: 320px) { h1 { font-size: calc(20.7385152499px + 24.3992432694 * ((100vw - 320px) / 960)); } }
+@media screen and (min-width: 1280px) { h1 { font-size: 45.1377585193px; } }
 
-h2 { font-size: 19.43628px; }
-@media screen and (min-width: 320px) { h2 { font-size: calc(19.43628px + 15.39223 * ((100vw - 320px) / 960)); } }
-@media screen and (min-width: 1280px) { h2 { font-size: 34.82852px; } }
+h2 { font-size: 19.436284208px; }
+@media screen and (min-width: 320px) { h2 { font-size: calc(19.436284208px + 15.392233168 * ((100vw - 320px) / 960)); } }
+@media screen and (min-width: 1280px) { h2 { font-size: 34.828517376px; } }
 
-h3 { font-size: 18.21582px; }
-@media screen and (min-width: 320px) { h3 { font-size: calc(18.21582px + 8.65803 * ((100vw - 320px) / 960)); } }
-@media screen and (min-width: 1280px) { h3 { font-size: 26.87386px; } }
+h3 { font-size: 18.215824px; }
+@media screen and (min-width: 320px) { h3 { font-size: calc(18.215824px + 8.658032 * ((100vw - 320px) / 960)); } }
+@media screen and (min-width: 1280px) { h3 { font-size: 26.873856px; } }
 
 h4 { font-size: 17.072px; }
 @media screen and (min-width: 320px) { h4 { font-size: calc(17.072px + 3.664 * ((100vw - 320px) / 960)); } }
@@ -228,9 +228,9 @@ h5 { font-size: 16px; }
 @media screen and (min-width: 320px) { h5 { font-size: calc(16px + 0 * ((100vw - 320px) / 960)); } }
 @media screen and (min-width: 1280px) { h5 { font-size: 16px; } }
 
-h6 { font-size: 14.99531px; }
-@media screen and (min-width: 320px) { h6 { font-size: calc(14.99531px + -2.64963 * ((100vw - 320px) / 960)); } }
-@media screen and (min-width: 1280px) { h6 { font-size: 12.34568px; } }
+h6 { font-size: 14.9953139644px; }
+@media screen and (min-width: 320px) { h6 { font-size: calc(14.9953139644px + -2.649634952 * ((100vw - 320px) / 960)); } }
+@media screen and (min-width: 1280px) { h6 { font-size: 12.3456790123px; } }
 
 dt { font-weight: bold; }
 dt:not(:first-child) { margin-top: 1rem; }
@@ -265,7 +265,7 @@ main section:after { content: " "; display: block; clear: both; }
 .inner { max-width: 1024px; }
 
 /* Layout specific adjustments ========================================================================== */
-@media (min-width: 64em) { .layout--post .entry-content, .layout--page .entry-content { width: 87.34177%; } }
+@media (min-width: 64em) { .layout--post .entry-content, .layout--page .entry-content { width: 87.3417721519%; } }
 
 .layout--about .entry-wrap { display: -ms-flexbox; display: flex; -ms-flex-wrap: wrap; flex-wrap: wrap; }
 @media (min-width: 48em) { .layout--about .entry-wrap { -ms-flex-wrap: nowrap; flex-wrap: nowrap; } }
@@ -275,9 +275,9 @@ main section:after { content: " "; display: block; clear: both; }
 .layout--about .entry-sidebar .author-picture { margin: 0 0 2rem; border-radius: 0.5em; }
 @media (min-width: 48em) { .layout--about .entry-sidebar .author-picture { margin: 0 0 0 2rem; } }
 
-@media (min-width: 48em) { .layout--cv .entries .entry-header { width: 30.37975%; float: left; margin-right: 1.26582%; padding-right: 6.32911%; /* remove space after last child element */ }
+@media (min-width: 48em) { .layout--cv .entries .entry-header { width: 30.3797468354%; float: left; margin-right: 1.2658227848%; padding-right: 6.3291139241%; /* remove space after last child element */ }
   .layout--cv .entries .entry-header > *:last-child { margin-bottom: 0; } }
-@media (min-width: 48em) { .layout--cv .entries .entry-content { width: 68.35443%; float: right; margin-right: 0; } }
+@media (min-width: 48em) { .layout--cv .entries .entry-content { width: 68.3544303797%; float: right; margin-right: 0; } }
 .layout--cv .entry a { color: #00848a; }
 .layout--cv .entry address { font-style: normal; }
 .layout--cv .entry .title, .layout--cv .entry .position, .layout--cv .entry .institution, .layout--cv .entry .language { margin-bottom: 0; }
@@ -390,13 +390,13 @@ tr, td, th { vertical-align: middle; }
 .entries .entry-title { word-wrap: break-word; /* break long words that could overflow */ }
 .entries .entry-title a:hover { color: #00848a; }
 .entries .entry-excerpt { /* normalize font sizes */ /* remove space after last child element */ }
-@media (min-width: 48em) { .entries .entry-excerpt { width: 68.35443%; float: left; margin-right: 1.26582%; } }
+@media (min-width: 48em) { .entries .entry-excerpt { width: 68.3544303797%; float: left; margin-right: 1.2658227848%; } }
 .entries .entry-excerpt > * { font-size: 1em; }
 .entries .entry-excerpt > *:last-child { margin-bottom: 0; }
 .entries .entry-content { /* remove space after last child element */ }
-@media (min-width: 48em) { .entries .entry-content { width: 68.35443%; float: left; margin-right: 1.26582%; } }
+@media (min-width: 48em) { .entries .entry-content { width: 68.3544303797%; float: left; margin-right: 1.2658227848%; } }
 .entries .entry-content > *:last-child { margin-bottom: 0; }
-@media (min-width: 48em) { .entries .entry-meta { width: 30.37975%; float: right; margin-right: 0; padding-left: 6.32911%; } }
+@media (min-width: 48em) { .entries .entry-meta { width: 30.3797468354%; float: right; margin-right: 0; padding-left: 6.3291139241%; } }
 .entries .entry-meta ul { padding-left: 0; list-style: none; }
 @media (max-width: 48em) { .entries .entry-meta ul li { display: inline-block; margin-right: 1.5rem; } }
 @media (min-width: 48em) { .entries .entry-meta ul li { padding-bottom: 0.5rem; } }
@@ -584,7 +584,7 @@ tr, td, th { vertical-align: middle; }
 .embed-responsive::before { display: block; content: ''; }
 .embed-responsive .embed-responsive-item, .embed-responsive iframe, .embed-responsive embed, .embed-responsive object, .embed-responsive video { position: absolute; top: 0; bottom: 0; left: 0; width: 100%; height: 100%; border: 0; }
 
-.embed-responsive-21by9::before { padding-top: 42.85714%; }
+.embed-responsive-21by9::before { padding-top: 42.8571428571%; }
 
 .embed-responsive-16by9::before { padding-top: 56.25%; }
 
