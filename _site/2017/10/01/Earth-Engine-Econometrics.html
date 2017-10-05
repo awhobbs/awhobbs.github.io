@@ -1,0 +1,1273 @@
+<!DOCTYPE html>
+<!--
+    Basically Basic Jekyll Theme 1.1.0
+    Copyright 2017 Michael Rose - mademistakes.com | @mmistakes
+    Free for personal and commercial use under the MIT license
+    https://github.com/mmistakes/jekyll-basically-theme/blob/master/LICENSE.md
+-->
+<html lang="en-US" class="no-js">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+    <title>Earth Engine Econometrics</title>
+    <meta name="description" content="Google Earth Engine is not built to do econometrics, but it makes doing so with geographic data from a low-powered (and small hard-drived) computer practical.">
+    <link rel="canonical" href="http://localhost:4000/2017/10/01/Earth-Engine-Econometrics.html">
+  
+
+  <script>
+    /* Cut the mustard */
+    if ( 'querySelector' in document && 'addEventListener' in window ) {
+      document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + 'js';
+    }
+  </script>
+
+  <link rel="stylesheet" href="/assets/stylesheets/main.css">
+  
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fira+Sans:400,400i,600,600i|Fira+Sans+Condensed">
+  
+
+  
+    
+    <link rel="alternate" type="application/atom+xml" title="hobbservations" href="/feed.xml">
+  
+</head>
+
+
+  <body class="layout--post earth-engine-econometrics">
+
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#primary-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+
+    <div class="sidebar-toggle-wrapper">
+      <button class="toggle navicon-button larr" type="button">
+        <span class="toggle-inner">
+          <span class="sidebar-toggle-label">Menu</span>
+          <span class="navicon"></span>
+        </span>
+      </button>
+    </div>
+
+    <div id="sidebar" class="sidebar">
+      <div class="inner">
+        <nav id="nav-primary" class="site-nav" itemscope itemtype="http://schema.org/SiteNavigationElement" aria-label="Main navigation">
+  <ul id="menu-main-navigation" class="menu">
+    <!-- Home link -->
+    <li class="menu-item">
+      <a href="/" itemprop="url">
+        <span itemprop="name">Home</span>
+      </a>
+    </li>
+
+    <!-- site.pages links -->
+    
+    
+
+    
+      
+      
+        <li class="menu-item">
+          <a href="/about/" itemprop="url">
+            <span itemprop="name">About</span>
+          </a>
+        </li>
+      
+    
+      
+      
+        <li class="menu-item">
+          <a href="/cv/" itemprop="url">
+            <span itemprop="name">CV</span>
+          </a>
+        </li>
+      
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+      
+      
+    
+  </ul>
+</nav>
+        <ul class="contact-list">
+  
+    <li>
+      <a href="mailto:andrew@hobbservations.com">
+        <span class="icon icon--email"><svg xmlns="http://www.w3.org/2000/svg" viewBox="313.1 3.7 16 16"><path d="M318.5 8.9c0-.2.2-.4.4-.4h4.5c.2 0 .4.2.4.4s-.2.4-.4.4h-4.5c-.3 0-.4-.2-.4-.4zm.4 2.1h4.5c.2 0 .4-.2.4-.4s-.2-.4-.4-.4h-4.5c-.2 0-.4.2-.4.4s.1.4.4.4zm3.5 1.2c0-.2-.2-.4-.4-.4h-3.1c-.2 0-.4.2-.4.4s.2.4.4.4h3.1c.2.1.4-.1.4-.4zm-1.5-8.4l-1.7 1.4c-.2.1-.2.4 0 .6s.4.2.6 0l1.4-1.2 1.4 1.2c.2.1.4.1.6 0s.1-.4 0-.6l-1.7-1.4c-.3-.1-.5-.1-.6 0zm7.8 6.2c.1.1.1.2.1.3v7.9c0 .8-.7 1.5-1.5 1.5h-12.5c-.8 0-1.5-.7-1.5-1.5v-7.9c0-.1.1-.2.1-.3l1.6-1.3c.2-.1.4-.1.6 0s.1.4 0 .6l-1.2 1 1.8 1.3v-4c0-.6.5-1.1 1.1-1.1h7.5c.6 0 1.1.5 1.1 1.1v4l1.8-1.3-1.2-1c-.2-.1-.2-.4 0-.6s.4-.2.6 0l1.6 1.3zm-11.6 2.2l4 2.8 4-2.8V7.6c0-.1-.1-.2-.2-.2h-7.5c-.1 0-.2.1-.2.2v4.6zm10.9-1l-4.7 3.4 3.4 2.6c.2.1.2.4.1.6-.1.2-.4.2-.6.1l-3.6-2.8-1.2.8c-.1.1-.3.1-.5 0l-1.2-.8-3.6 2.8c-.2.1-.4.1-.6-.1-.1-.2-.1-.4.1-.6l3.4-2.6-4.7-3.4v7.1c0 .4.3.6.6.6h12.5c.4 0 .6-.3.6-.6v-7.1z"/></svg></span>
+        <span class="label">Email</span>
+      </a>
+    </li>
+  
+
+  
+    <li><a href="https://github.com/awhobbs">
+  <span class="icon icon--github"><svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="1.414"><path d="M8 0C3.58 0 0 3.582 0 8c0 3.535 2.292 6.533 5.47 7.59.4.075.547-.172.547-.385 0-.19-.007-.693-.01-1.36-2.226.483-2.695-1.073-2.695-1.073-.364-.924-.89-1.17-.89-1.17-.725-.496.056-.486.056-.486.803.056 1.225.824 1.225.824.714 1.223 1.873.87 2.33.665.072-.517.278-.87.507-1.07-1.777-.2-3.644-.888-3.644-3.953 0-.873.31-1.587.823-2.147-.09-.202-.36-1.015.07-2.117 0 0 .67-.215 2.2.82.64-.178 1.32-.266 2-.27.68.004 1.36.092 2 .27 1.52-1.035 2.19-.82 2.19-.82.43 1.102.16 1.915.08 2.117.51.56.82 1.274.82 2.147 0 3.073-1.87 3.75-3.65 3.947.28.24.54.73.54 1.48 0 1.07-.01 1.93-.01 2.19 0 .21.14.46.55.38C13.71 14.53 16 11.53 16 8c0-4.418-3.582-8-8-8"/></svg></span>
+  <span class="label">GitHub</span>
+</a>
+</li>
+  
+
+  
+    <li><a href="https://twitter.com/hobbservation">
+  <span class="icon icon--twitter"><svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="1.414"><path d="M16 3.038c-.59.26-1.22.437-1.885.517.677-.407 1.198-1.05 1.443-1.816-.634.37-1.337.64-2.085.79-.598-.64-1.45-1.04-2.396-1.04-1.812 0-3.282 1.47-3.282 3.28 0 .26.03.51.085.75-2.728-.13-5.147-1.44-6.766-3.42C.83 2.58.67 3.14.67 3.75c0 1.14.58 2.143 1.46 2.732-.538-.017-1.045-.165-1.487-.41v.04c0 1.59 1.13 2.918 2.633 3.22-.276.074-.566.114-.865.114-.21 0-.41-.02-.61-.058.42 1.304 1.63 2.253 3.07 2.28-1.12.88-2.54 1.404-4.07 1.404-.26 0-.52-.015-.78-.045 1.46.93 3.18 1.474 5.04 1.474 6.04 0 9.34-5 9.34-9.33 0-.14 0-.28-.01-.42.64-.46 1.2-1.04 1.64-1.7z" fill-rule="nonzero"/></svg></span>
+  <span class="label">Twitter</span>
+</a>
+</li>
+  
+
+  <li>
+    
+      <a href="/feed.xml" title="Atom Feed">
+        <span class="icon icon--rss"><svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="1.414"><path d="M12.8 16C12.8 8.978 7.022 3.2 0 3.2V0c8.777 0 16 7.223 16 16h-3.2zM2.194 11.61c1.21 0 2.195.985 2.195 2.196 0 1.21-.99 2.194-2.2 2.194C.98 16 0 15.017 0 13.806c0-1.21.983-2.195 2.194-2.195zM10.606 16h-3.11c0-4.113-3.383-7.497-7.496-7.497v-3.11c5.818 0 10.606 4.79 10.606 10.607z"/></svg></span>
+        <span class="label">Subscribe</span>
+      </a>
+    
+  </li>
+</ul>
+      </div>
+    </div>
+
+    <div class="canvas">
+      <div class="wrapper">
+        
+
+<header id="masthead">
+  <div class="inner">
+    <div class="title-area">
+      
+        <p class="site-title">
+          <a href="/">
+            
+            <span>hobbservations</span>
+          </a>
+        </p>
+      
+    </div>
+  </div>
+</header>
+
+        <header class="intro">
+  
+
+  <div class="inner">
+    <div class="intro-text">
+      <h1 class="intro-title">Earth Engine Econometrics
+</h1>
+      
+
+      
+        
+
+        <p class="entry-meta">
+          <span class="byline-item"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="379 72 16 16"><g><g><path fill="none" d="M380.8,86.7h12.3v-8.8h-12.3V86.7z M389.5,78.8h1.7v1.4h-1.7V78.8z M389.5,81.3h1.7v1.4h-1.7V81.3z M389.5,83.8h1.7v1.4h-1.7V83.8z M386.1,78.8h1.7v1.4h-1.7V78.8z M386.1,81.3h1.7v1.4h-1.7V81.3z M386.1,83.8h1.7v1.4h-1.7V83.8z M382.8,78.8h1.7v1.4h-1.7V78.8z M382.8,81.3h1.7v1.4h-1.7V81.3z M382.8,83.8h1.7v1.4h-1.7V83.8z"/><polygon fill="none" points="384.7 75.1 383.4 75.1 383.4 74.3 380.8 74.3 380.8 76.6 393.2 76.6 393.2 74.3 390.6 74.3 390.6 75.1 389.3 75.1 389.3 74.3 384.7 74.3"/><rect x="382.8" y="78.8" width="1.7" height="1.4"/><rect x="386.1" y="78.8" width="1.7" height="1.4"/><rect x="389.5" y="78.8" width="1.7" height="1.4"/><rect x="382.8" y="81.3" width="1.7" height="1.4"/><rect x="386.1" y="81.3" width="1.7" height="1.4"/><rect x="389.5" y="81.3" width="1.7" height="1.4"/><rect x="382.8" y="83.8" width="1.7" height="1.4"/><rect x="386.1" y="83.8" width="1.7" height="1.4"/><rect x="389.5" y="83.8" width="1.7" height="1.4"/><path d="M383.4,72v1.1h-3.8V88h14.9V73.1h-3.8V72h-1.3v1.1h-4.7V72H383.4z M393.2,86.7h-12.3v-8.8h12.3L393.2,86.7L393.2,86.7z M389.3,74.3v0.8h1.3v-0.8h2.5v2.3h-12.3v-2.3h2.5v0.8h1.3v-0.8H389.3z"/></g></g></svg></span><time datetime="2017-10-01T12:52:56-07:00">October 1, 2017</time></span>
+        </p>
+      
+
+      
+
+      
+    </div>
+  </div>
+</header>
+
+
+<main id="main" class="page-content" aria-label="Content">
+  <div class="inner">
+    <article class="entry-wrap">
+      <div class="entry-content">
+        <p>Google Earth Engine is not built to do econometrics, but it makes doing so with geographic data from a low-powered (and small hard-drived) computer practical.</p>
+
+<p>The basic steps are:</p>
+
+<ol>
+  <li>Import the layers of data you desire.</li>
+  <li>Create new layers of data for other variables, such as year effects and perhaps a constant.</li>
+  <li>Use a reducer to smooth data across space (if desired). For relationships between a pixel and nearby pixels, rather than just on the values of other layers at the same pixel.</li>
+  <li>Create a <code class="highlighter-rouge">FeatureCollection</code> from a random sample of pixels. Calculate OLS coefficients and standard errors. Repeat.</li>
+</ol>
+
+<p>The bootstrap approach in the last step may not be necessary if you’re only analyzing a small area, but Earth Engine limits the amount of data to about 100M.</p>
+
+<h1 id="import-the-data">Import the data</h1>
+
+<p>The first step is to import the data desired. I am interested in the relationship between weather shocks and forest change. For forest change, I plan to use data from <a href="http://science.sciencemag.org/content/342/6160/850">Hansen et al. (2013)</a>. For weather shocks, I will start by using rainfall data, though down the road I’ll need to do something more sophisticated.</p>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="c"># Import and initialize the Earth Engine Python API</span>
+<span class="kn">import</span> <span class="nn">ee</span>
+<span class="n">ee</span><span class="o">.</span><span class="n">Initialize</span><span class="p">()</span>
+
+<span class="c"># Import library to display images</span>
+<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">Image</span>
+
+<span class="c"># Get the shape of Mozambique</span>
+<span class="n">countries</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">FeatureCollection</span><span class="p">(</span><span class="s">'ft:1tdSwUL7MVpOauSgRzqVTOwdfy17KDbw-1d9omPw'</span><span class="p">)</span>
+<span class="n">moz</span> <span class="o">=</span> <span class="n">countries</span><span class="o">.</span><span class="n">filterMetadata</span><span class="p">(</span><span class="s">'Country'</span><span class="p">,</span> <span class="s">'equals'</span><span class="p">,</span> <span class="s">'Mozambique'</span><span class="p">)</span>
+
+<span class="c"># Get the Hansen et al. (2013) data, clip to Mozambique</span>
+<span class="c">#gfc = ee.Image('UMD/hansen/global_forest_change_2015_v1_3').clip(moz)</span>
+<span class="n">gfc</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="s">'UMD/hansen/global_forest_change_2015'</span><span class="p">)</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">moz</span><span class="p">)</span>
+
+
+
+<span class="c"># Get the image for forest cover in 2000. Will be used to restrict the regression,</span>
+<span class="c"># since we are only interested in forest loss where there was once forest</span>
+<span class="n">moz_treecover2000</span> <span class="o">=</span> <span class="n">gfc</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s">'treecover2000'</span><span class="p">)</span>
+
+<span class="c"># Get PERSIANN rainfall data, clip to Mozambique</span>
+<span class="n">persiann</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">ImageCollection</span><span class="p">(</span><span class="s">'NOAA/PERSIANN-CDR'</span><span class="p">)</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s">'precipitation'</span><span class="p">)</span><span class="o">.</span><span class="n">filterBounds</span><span class="p">(</span><span class="n">moz</span><span class="p">)</span>
+
+<span class="c"># Convert to a collection of annual images</span>
+<span class="c"># The Hansen data starts out as a single image, so we need to split it up</span>
+<span class="c"># The precipitation data needs to be added up</span>
+
+<span class="k">def</span> <span class="nf">annual_stuff</span><span class="p">(</span><span class="n">year</span><span class="p">):</span>
+    <span class="n">year</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">Number</span><span class="p">(</span><span class="n">year</span><span class="p">)</span>
+    <span class="n">start_date</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">Date</span><span class="o">.</span><span class="n">fromYMD</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">end_date</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">Date</span><span class="o">.</span><span class="n">fromYMD</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">31</span><span class="p">)</span>
+
+    <span class="c"># This will give the daily precipitation</span>
+    <span class="c"># so to get the yearly total, we need to add them together</span>
+    <span class="n">total_precipitation</span> <span class="o">=</span> <span class="n">persiann</span><span class="o">.</span><span class="n">filterDate</span><span class="p">(</span><span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span><span class="p">)</span><span class="o">.</span><span class="nb">reduce</span><span class="p">(</span><span class="n">ee</span><span class="o">.</span><span class="n">Reducer</span><span class="o">.</span><span class="nb">sum</span><span class="p">())</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">moz</span><span class="p">)</span>
+
+    <span class="c"># Get forest loss for that year</span>
+    <span class="n">yrID</span> <span class="o">=</span> <span class="n">year</span><span class="o">.</span><span class="n">subtract</span><span class="p">(</span><span class="mi">2000</span><span class="p">)</span>
+    <span class="n">loss</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">lossyear</span> <span class="o">=</span> <span class="n">gfc</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s">'lossyear'</span><span class="p">)</span><span class="o">.</span><span class="n">eq</span><span class="p">(</span><span class="n">yrID</span><span class="p">)</span>
+    <span class="n">loss</span> <span class="o">=</span> <span class="n">loss</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">lossyear</span><span class="p">)</span><span class="o">.</span><span class="n">rename</span><span class="p">([</span><span class="s">'lossyear'</span><span class="p">])</span>
+
+    <span class="c"># Create a year band</span>
+    <span class="n">yr_image</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="n">year</span><span class="p">)</span><span class="o">.</span><span class="nb">float</span><span class="p">()</span><span class="o">.</span><span class="n">rename</span><span class="p">([</span><span class="s">'year'</span><span class="p">])</span>
+
+    <span class="c"># Combine the three into a composite image for the year</span>
+    <span class="n">composite</span> <span class="o">=</span> <span class="n">loss</span><span class="o">.</span><span class="n">addBands</span><span class="p">(</span><span class="n">total_precipitation</span><span class="p">)</span><span class="o">.</span><span class="n">addBands</span><span class="p">(</span><span class="n">yr_image</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">composite</span>
+
+<span class="n">year_range</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">List</span><span class="o">.</span><span class="n">sequence</span><span class="p">(</span><span class="mi">2001</span><span class="p">,</span> <span class="mi">2015</span><span class="p">)</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">ImageCollection</span><span class="p">(</span><span class="n">year_range</span><span class="o">.</span><span class="nb">map</span><span class="p">(</span><span class="n">annual_stuff</span><span class="p">))</span>
+
+<span class="n">Image</span><span class="p">(</span><span class="n">url</span> <span class="o">=</span> <span class="n">gfc</span><span class="o">.</span><span class="n">getThumbUrl</span><span class="p">({</span>
+      <span class="s">'region'</span><span class="p">:</span> <span class="n">moz</span><span class="o">.</span><span class="n">geometry</span><span class="p">()</span><span class="o">.</span><span class="n">bounds</span><span class="p">()</span><span class="o">.</span><span class="n">getInfo</span><span class="p">(),</span>
+      <span class="s">'bands'</span><span class="p">:</span> <span class="s">'lossyear'</span><span class="p">,</span>
+      <span class="s">'min'</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+      <span class="s">'max'</span><span class="p">:</span> <span class="mi">3</span><span class="p">}))</span>
+</code></pre>
+</div>
+
+<p><img src="https://earthengine.googleapis.com/api/thumb?thumbid=be0e9627933bbdffc1de50b892d3a0c7&amp;token=c261eb76501f893004da7cba5adf56f9" /></p>
+
+<p>It is worth displaying the data to make sure it makes sense. Let’s write a quick helper function to look at data for a given year</p>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">Image</span>
+
+<span class="n">average_image</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+
+<span class="n">Image</span><span class="p">(</span><span class="n">url</span> <span class="o">=</span> <span class="n">average_image</span><span class="o">.</span><span class="n">getThumbUrl</span><span class="p">({</span>
+      <span class="s">'region'</span><span class="p">:</span> <span class="n">moz</span><span class="o">.</span><span class="n">geometry</span><span class="p">()</span><span class="o">.</span><span class="n">bounds</span><span class="p">()</span><span class="o">.</span><span class="n">getInfo</span><span class="p">(),</span>
+      <span class="s">'bands'</span><span class="p">:</span> <span class="s">'precipitation_sum'</span><span class="p">,</span>
+      <span class="s">'min'</span><span class="p">:</span>  <span class="mi">0</span><span class="p">,</span>
+      <span class="s">'max'</span><span class="p">:</span> <span class="mi">2500</span><span class="p">}))</span>
+</code></pre>
+</div>
+
+<p><img src="https://earthengine.googleapis.com/api/thumb?thumbid=3b636b10341333be704db8fae55096bd&amp;token=f103cf28c245c2c23ca4418eef69c375" /></p>
+
+<p>It looks like we have the right data. However, a very small share of pixels are deforested in a given year. This is of course a good thing. However, if we take a sample, we may get all zeroes. Let’s see how much deforestation there is in each year.</p>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="c"># Run the regression for all of Mozambique</span>
+<span class="n">mean_data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">select</span><span class="p">([</span><span class="s">'year'</span><span class="p">,</span> <span class="s">'precipitation_sum'</span><span class="p">,</span> <span class="s">'lossyear'</span><span class="p">])</span>
+<span class="k">print</span> <span class="n">mean_data</span><span class="o">.</span><span class="n">bandNames</span><span class="p">()</span><span class="o">.</span><span class="n">getInfo</span><span class="p">()</span>
+
+<span class="n">linear_fit</span> <span class="o">=</span> <span class="p">(</span><span class="n">mean_data</span><span class="o">.</span><span class="n">reduceRegion</span><span class="p">(</span>
+    <span class="n">reducer</span><span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">Reducer</span><span class="o">.</span><span class="n">linearRegression</span><span class="p">(</span>
+    <span class="n">numX</span><span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="n">numY</span><span class="o">=</span> <span class="mi">1</span>
+  <span class="p">),</span>
+  <span class="n">geometry</span><span class="o">=</span> <span class="n">moz</span><span class="p">,</span>
+  <span class="n">scale</span><span class="o">=</span> <span class="mi">200</span><span class="p">,</span>
+  <span class="n">maxPixels</span><span class="o">=</span> <span class="mi">134100833650</span>
+<span class="p">))</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">linear_fit</span><span class="o">.</span><span class="n">getInfo</span><span class="p">())</span>
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>[u'year', u'precipitation_sum', u'lossyear']
+{u'residuals': [0.012013937790101835], u'coefficients': [[-4.539741010669634e-07], [3.2480903671127144e-06]]}
+</code></pre>
+</div>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="err">!</span><span class="n">export</span> <span class="n">LD_LIBRARY_PATH</span><span class="o">=/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">lib</span>
+</code></pre>
+</div>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="err">!</span><span class="n">export</span> <span class="n">LD_LIBRARY_PATH</span><span class="o">=/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">lib</span><span class="p">:</span><span class="err">$</span><span class="n">LD_LIBRARY_PATH</span>
+</code></pre>
+</div>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="err">!</span><span class="n">echo</span> <span class="err">$</span><span class="n">LD_LIBRARY_PATH</span>
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>/usr/local/lib
+</code></pre>
+</div>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">geopandas</span> <span class="kn">import</span> <span class="n">GeoDataFrame</span>
+<span class="kn">from</span> <span class="nn">shapely.geometry</span> <span class="kn">import</span> <span class="n">shape</span>
+
+<span class="n">mean_data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+
+<span class="c"># define a function to subtract the mean</span>
+<span class="k">def</span> <span class="nf">demean</span><span class="p">(</span><span class="n">image</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">image</span><span class="o">.</span><span class="n">subtract</span><span class="p">(</span><span class="n">mean_data</span><span class="p">)</span><span class="o">.</span><span class="nb">set</span><span class="p">(</span><span class="s">'system:time_start'</span><span class="p">,</span> <span class="n">image</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'system:time_start'</span><span class="p">));</span>
+
+<span class="k">def</span> <span class="nf">sample</span><span class="p">(</span><span class="n">seed</span><span class="p">):</span>
+    <span class="n">seed</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">Number</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">data</span><span class="o">.</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">i</span><span class="p">:</span> <span class="n">i</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">region</span> <span class="o">=</span> <span class="n">moz</span><span class="p">,</span> <span class="n">numPixels</span> <span class="o">=</span> <span class="mi">200</span><span class="p">,</span> <span class="n">seed</span> <span class="o">=</span> <span class="n">seed</span><span class="p">))</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+
+<span class="k">def</span> <span class="nf">fc2df</span><span class="p">(</span><span class="n">fc</span><span class="p">):</span>
+    <span class="c"># Convert a FeatureCollection into a pandas DataFrame</span>
+
+    <span class="c"># Features is a list of dict with the output</span>
+    <span class="n">features</span> <span class="o">=</span> <span class="n">fc</span><span class="o">.</span><span class="n">getInfo</span><span class="p">()[</span><span class="s">'features'</span><span class="p">]</span>
+
+    <span class="n">dictarr</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">features</span><span class="p">:</span>
+        <span class="c"># Store all attributes in a dict</span>
+        <span class="n">attr</span> <span class="o">=</span> <span class="n">f</span><span class="p">[</span><span class="s">'properties'</span><span class="p">]</span>
+        <span class="c"># and treat geometry separately</span>
+        <span class="n">attr</span><span class="p">[</span><span class="s">'geometry'</span><span class="p">]</span> <span class="o">=</span> <span class="n">f</span><span class="p">[</span><span class="s">'geometry'</span><span class="p">]</span>  <span class="c"># GeoJSON Feature!</span>
+        <span class="c"># attr['geometrytype'] = f['geometry']['type']</span>
+        <span class="n">dictarr</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">attr</span><span class="p">)</span>
+
+    <span class="n">df</span> <span class="o">=</span> <span class="n">GeoDataFrame</span><span class="p">(</span><span class="n">dictarr</span><span class="p">)</span>
+    <span class="c"># Convert GeoJSON features to shape (removed this line because points have no shape)</span>
+    <span class="c"># leaving it here for future use</span>
+    <span class="c">#df['geometry'] = map(lambda s: shape(s), df.geometry)    </span>
+    <span class="k">return</span> <span class="n">df</span>
+<span class="c"># End fc2df</span>
+
+<span class="c"># This is a three step process</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="nb">map</span><span class="p">(</span><span class="n">demean</span><span class="p">)</span>
+
+<span class="c">#rand_data = sample(1234)</span>
+<span class="c">#print rand_data.getInfo()</span>
+
+<span class="c">#generate a bunch of seeds to get different datasets</span>
+<span class="n">seeds</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">fc2df</span><span class="p">(</span><span class="n">sample</span><span class="p">(</span><span class="mi">350</span><span class="p">))</span>
+<span class="c">#results[1] = sm.ols(formula="lossyear ~ precip + precip2  + C(year)", data=df).fit()</span>
+
+<span class="c">#for seed in seeds:</span>
+ <span class="c">#   df = pd.concat(df, fc2df(sample(seed)))</span>
+
+<span class="c">#random_sets = map(sample, seeds)</span>
+
+<span class="c">#dfs = map(fc2df, random_sets)</span>
+
+<span class="c">#print random_sets.getInfo()</span>
+
+<span class="c">#dfs = fc2df(random_sets) #.map(fc2df)</span>
+
+<span class="c">#df = fc2df(rand_data)</span>
+</code></pre>
+</div>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">statsmodels.formula.api</span> <span class="kn">as</span> <span class="nn">sm</span>
+
+<span class="c">#fix loss variable</span>
+<span class="n">df</span><span class="p">[</span><span class="s">'lossyear'</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s">'lossyear'</span><span class="p">]</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+<span class="c">#convert precipitation to centimeters</span>
+<span class="n">df</span><span class="p">[</span><span class="s">'precip'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s">'precipitation_sum'</span><span class="p">]</span> <span class="o">*</span> <span class="mi">10</span>
+<span class="n">df</span><span class="p">[</span><span class="s">'precip2'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s">'precip'</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span>
+<span class="n">df</span><span class="p">[</span><span class="s">'abs_precip'</span><span class="p">]</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s">'precip'</span><span class="p">])</span>
+<span class="n">df</span><span class="p">[</span><span class="s">'abs_precip2'</span><span class="p">]</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s">'precip2'</span><span class="p">])</span>
+
+<span class="n">df</span><span class="p">[</span><span class="s">'precip_positive'</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s">'precip'</span><span class="p">]</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="s">'precip'</span><span class="p">],</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">df</span><span class="p">[</span><span class="s">'precip_negative'</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s">'precip'</span><span class="p">]</span><span class="o">&lt;</span><span class="mi">0</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="s">'abs_precip'</span><span class="p">],</span> <span class="mi">0</span><span class="p">)</span>
+
+<span class="n">df</span><span class="p">[</span><span class="s">'pp2'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s">'precip_positive'</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span>
+<span class="n">df</span><span class="p">[</span><span class="s">'pn2'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s">'precip_negative'</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span>
+
+<span class="k">print</span> <span class="n">df</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>          lossyear  precipitation_sum         year        precip  \
+count  1500.000000       1.500000e+03  1500.000000  1.500000e+03   
+mean      0.001333      -2.425319e-15     0.000000 -3.880511e-14   
+std       0.036503       1.860262e+02     4.321935  1.860262e+03   
+min       0.000000      -5.140513e+02    -7.000000 -5.140513e+03   
+25%       0.000000      -1.326161e+02    -4.000000 -1.326161e+03   
+50%       0.000000      -1.136403e+01     0.000000 -1.136403e+02   
+75%       0.000000       1.155503e+02     4.000000  1.155503e+03   
+max       1.000000       7.390148e+02     7.000000  7.390148e+03   
+
+            precip2   abs_precip   abs_precip2  precip_positive  \
+count  1.500000e+03  1500.000000  1.500000e+03      1500.000000   
+mean   3.458267e+06  1467.805797  3.458267e+06       733.902899   
+std    5.355807e+06  1142.227382  5.355807e+06      1176.277739   
+min    2.009662e-01     0.448292  2.009662e-01         0.000000   
+25%    3.194985e+05   565.241225  3.194985e+05         0.000000   
+50%    1.588682e+06  1260.429232  1.588682e+06         0.000000   
+75%    4.218607e+06  2053.924785  4.218607e+06      1155.502943   
+max    5.461428e+07  7390.147807  5.461428e+07      7390.147807   
+
+       precip_negative           pp2           pn2  
+count      1500.000000  1.500000e+03  1.500000e+03  
+mean        733.902899  1.921320e+06  1.536947e+06  
+std         999.499690  5.013597e+06  3.075449e+06  
+min           0.000000  0.000000e+00  0.000000e+00  
+25%           0.000000  0.000000e+00  0.000000e+00  
+50%         113.640259  0.000000e+00  1.291522e+04  
+75%        1326.161423  1.335188e+06  1.758709e+06  
+max        5140.513269  5.461428e+07  2.642488e+07  
+</code></pre>
+</div>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="n">result</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="n">formula</span><span class="o">=</span><span class="s">"lossyear ~ -1 + abs_precip + abs_precip2    + C(year)"</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+
+<span class="k">print</span> <span class="n">result</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:               lossyear   R-squared:                       0.020
+Model:                            OLS   Adj. R-squared:                  0.009
+Method:                 Least Squares   F-statistic:                     1.851
+Date:                Tue, 22 Aug 2017   Prob (F-statistic):             0.0210
+Time:                        16:09:55   Log-Likelihood:                 2852.5
+No. Observations:                1500   AIC:                            -5671.
+Df Residuals:                    1483   BIC:                            -5581.
+Df Model:                          16                                         
+Covariance Type:            nonrobust                                         
+=================================================================================
+                    coef    std err          t      P&gt;|t|      [0.025      0.975]
+---------------------------------------------------------------------------------
+C(year)[-7.0]    -0.0027      0.005     -0.575      0.565      -0.012       0.006
+C(year)[-6.0]    -0.0025      0.004     -0.589      0.556      -0.011       0.006
+C(year)[-5.0]    -0.0016      0.004     -0.419      0.676      -0.009       0.006
+C(year)[-4.0]     0.0181      0.004      4.528      0.000       0.010       0.026
+C(year)[-3.0]    -0.0027      0.004     -0.619      0.536      -0.011       0.006
+C(year)[-2.0]    -0.0020      0.004     -0.484      0.628      -0.010       0.006
+C(year)[-1.0]    -0.0028      0.004     -0.635      0.525      -0.011       0.006
+C(year)[0.0]     -0.0023      0.004     -0.555      0.579      -0.010       0.006
+C(year)[1.0]     -0.0021      0.004     -0.513      0.608      -0.010       0.006
+C(year)[2.0]     -0.0017      0.004     -0.430      0.668      -0.009       0.006
+C(year)[3.0]     -0.0020      0.004     -0.485      0.628      -0.010       0.006
+C(year)[4.0]     -0.0020      0.004     -0.498      0.619      -0.010       0.006
+C(year)[5.0]     -0.0018      0.004     -0.460      0.646      -0.010       0.006
+C(year)[6.0]     -0.0020      0.004     -0.500      0.617      -0.010       0.006
+C(year)[7.0]     -0.0025      0.004     -0.586      0.558      -0.011       0.006
+abs_precip     2.284e-06   2.21e-06      1.033      0.302   -2.05e-06    6.62e-06
+abs_precip2    -3.44e-10   4.86e-10     -0.708      0.479    -1.3e-09    6.09e-10
+==============================================================================
+Omnibus:                     3775.739   Durbin-Watson:                   2.039
+Prob(Omnibus):                  0.000   Jarque-Bera (JB):         32216884.687
+Skew:                          26.521   Prob(JB):                         0.00
+Kurtosis:                     719.000   Cond. No.                     5.55e+07
+==============================================================================
+
+Warnings:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+[2] The condition number is large, 5.55e+07. This might indicate that there are
+strong multicollinearity or other numerical problems.
+</code></pre>
+</div>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="n">df</span><span class="o">.</span><span class="n">memory_usage</span><span class="p">()</span>
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>Index                   72
+geometry             12800
+lossyear             12800
+precipitation_sum    12800
+year                 12800
+precip               12800
+precip2              12800
+dtype: int64
+</code></pre>
+</div>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code>
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>  File "&lt;unknown&gt;", line 1
+    .
+    ^
+SyntaxError: invalid syntax
+</code></pre>
+</div>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="c"># Load a landsat image and select three bands.</span>
+<span class="n">landsat</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="s">'LANDSAT/LC8_L1T_TOA/LC81230322014135LGN00'</span><span class="p">)</span><span class="o">.</span><span class="n">select</span><span class="p">([</span><span class="s">'B4'</span><span class="p">,</span> <span class="s">'B3'</span><span class="p">,</span> <span class="s">'B2'</span><span class="p">])</span>
+
+<span class="c"># Create a geometry representing an export region.</span>
+<span class="n">geometry</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">Geometry</span><span class="o">.</span><span class="n">Rectangle</span><span class="p">([</span><span class="mf">116.2621</span><span class="p">,</span> <span class="mf">39.8412</span><span class="p">,</span> <span class="mf">116.4849</span><span class="p">,</span> <span class="mf">40.01236</span><span class="p">])</span>
+
+<span class="c"># Export the image, specifying scale and region.</span>
+<span class="n">task</span> <span class="o">=</span> <span class="p">(</span><span class="n">ee</span><span class="o">.</span><span class="n">batch</span><span class="o">.</span><span class="n">Export</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">toDrive</span><span class="p">(</span>
+  <span class="n">image</span><span class="o">=</span> <span class="n">landsat</span><span class="p">,</span>
+  <span class="n">description</span><span class="o">=</span> <span class="s">'imageToDriveWithRegion'</span><span class="p">,</span>
+  <span class="n">scale</span><span class="o">=</span> <span class="mi">30</span><span class="p">,</span>
+  <span class="n">region</span><span class="o">=</span> <span class="n">geometry</span><span class="o">.</span><span class="n">toGeoJSON</span><span class="p">()</span>
+<span class="p">))</span>
+
+<span class="n">task</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+</code></pre>
+</div>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="n">df_list</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+    <span class="n">df_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fc2df</span><span class="p">(</span><span class="n">sample</span><span class="p">(</span><span class="n">i</span><span class="p">)))</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>0
+0
+1
+1
+2
+2
+3
+3
+4
+4
+5
+5
+6
+6
+7
+7
+8
+8
+9
+9
+10
+10
+11
+11
+12
+12
+13
+13
+14
+14
+15
+15
+16
+16
+17
+17
+18
+18
+19
+19
+20
+20
+21
+21
+22
+22
+23
+23
+24
+24
+25
+25
+26
+26
+27
+27
+28
+28
+29
+29
+30
+30
+31
+31
+32
+
+
+
+---------------------------------------------------------------------------
+
+EEException                               Traceback (most recent call last)
+
+&lt;ipython-input-5-e97ea83a92da&gt; in &lt;module&gt;()
+      3 for i in range(0, 100):
+      4     print(i)
+----&gt; 5     df_list.append(fc2df(sample(i)))
+      6     print(i)
+      7
+
+
+&lt;ipython-input-2-3c38214d1753&gt; in fc2df(fc)
+     16
+     17     # Features is a list of dict with the output
+---&gt; 18     features = fc.getInfo()['features']
+     19
+     20     dictarr = []
+
+
+/home/andrew/miniconda2/lib/python2.7/site-packages/ee/collection.pyc in getInfo(self)
+    125            properties.
+    126     """
+--&gt; 127     return super(Collection, self).getInfo()
+    128
+    129   def limit(self, maximum, opt_property=None, opt_ascending=None):
+
+
+/home/andrew/miniconda2/lib/python2.7/site-packages/ee/computedobject.pyc in getInfo(self)
+     93       The object can evaluate to anything.
+     94     """
+---&gt; 95     return data.getValue({'json': self.serialize()})
+     96
+     97   def encode(self, encoder):
+
+
+/home/andrew/miniconda2/lib/python2.7/site-packages/ee/data.pyc in getValue(params)
+    253   """
+    254   params['json_format'] = 'v2'
+--&gt; 255   return send_('/value', params)
+    256
+    257
+
+
+/home/andrew/miniconda2/lib/python2.7/site-packages/ee/data.pyc in send_(path, params, opt_method, opt_raw)
+    781       raise ee_exception.EEException('Invalid JSON: %s' % content)
+    782     if 'error' in json_content:
+--&gt; 783       raise ee_exception.EEException(json_content['error']['message'])
+    784     if 'data' not in content:
+    785       raise ee_exception.EEException('Malformed response: ' + str(content))
+
+
+EEException: Too many requests to Fusion Tables.
+</code></pre>
+</div>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">100</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+    <span class="n">df_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fc2df</span><span class="p">(</span><span class="n">sample</span><span class="p">(</span><span class="n">i</span><span class="p">)))</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>32
+32
+33
+
+
+
+---------------------------------------------------------------------------
+
+EEException                               Traceback (most recent call last)
+
+&lt;ipython-input-6-a2f499c70000&gt; in &lt;module&gt;()
+      1 for i in range(32, 100):
+      2     print(i)
+----&gt; 3     df_list.append(fc2df(sample(i)))
+      4     print(i)
+
+
+&lt;ipython-input-2-3c38214d1753&gt; in fc2df(fc)
+     16
+     17     # Features is a list of dict with the output
+---&gt; 18     features = fc.getInfo()['features']
+     19
+     20     dictarr = []
+
+
+/home/andrew/miniconda2/lib/python2.7/site-packages/ee/collection.pyc in getInfo(self)
+    125            properties.
+    126     """
+--&gt; 127     return super(Collection, self).getInfo()
+    128
+    129   def limit(self, maximum, opt_property=None, opt_ascending=None):
+
+
+/home/andrew/miniconda2/lib/python2.7/site-packages/ee/computedobject.pyc in getInfo(self)
+     93       The object can evaluate to anything.
+     94     """
+---&gt; 95     return data.getValue({'json': self.serialize()})
+     96
+     97   def encode(self, encoder):
+
+
+/home/andrew/miniconda2/lib/python2.7/site-packages/ee/data.pyc in getValue(params)
+    253   """
+    254   params['json_format'] = 'v2'
+--&gt; 255   return send_('/value', params)
+    256
+    257
+
+
+/home/andrew/miniconda2/lib/python2.7/site-packages/ee/data.pyc in send_(path, params, opt_method, opt_raw)
+    781       raise ee_exception.EEException('Invalid JSON: %s' % content)
+    782     if 'error' in json_content:
+--&gt; 783       raise ee_exception.EEException(json_content['error']['message'])
+    784     if 'data' not in content:
+    785       raise ee_exception.EEException('Malformed response: ' + str(content))
+
+
+EEException: Too many requests to Fusion Tables.
+</code></pre>
+</div>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">33</span><span class="p">,</span> <span class="mi">100</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+    <span class="n">df_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fc2df</span><span class="p">(</span><span class="n">sample</span><span class="p">(</span><span class="n">i</span><span class="p">)))</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>33
+33
+34
+34
+35
+
+
+
+---------------------------------------------------------------------------
+
+EEException                               Traceback (most recent call last)
+
+&lt;ipython-input-13-b21a6c0c13a2&gt; in &lt;module&gt;()
+      1 for i in range(33, 100):
+      2     print(i)
+----&gt; 3     df_list.append(fc2df(sample(i)))
+      4     print(i)
+
+
+&lt;ipython-input-2-3c38214d1753&gt; in fc2df(fc)
+     16
+     17     # Features is a list of dict with the output
+---&gt; 18     features = fc.getInfo()['features']
+     19
+     20     dictarr = []
+
+
+/home/andrew/miniconda2/lib/python2.7/site-packages/ee/collection.pyc in getInfo(self)
+    125            properties.
+    126     """
+--&gt; 127     return super(Collection, self).getInfo()
+    128
+    129   def limit(self, maximum, opt_property=None, opt_ascending=None):
+
+
+/home/andrew/miniconda2/lib/python2.7/site-packages/ee/computedobject.pyc in getInfo(self)
+     93       The object can evaluate to anything.
+     94     """
+---&gt; 95     return data.getValue({'json': self.serialize()})
+     96
+     97   def encode(self, encoder):
+
+
+/home/andrew/miniconda2/lib/python2.7/site-packages/ee/data.pyc in getValue(params)
+    253   """
+    254   params['json_format'] = 'v2'
+--&gt; 255   return send_('/value', params)
+    256
+    257
+
+
+/home/andrew/miniconda2/lib/python2.7/site-packages/ee/data.pyc in send_(path, params, opt_method, opt_raw)
+    781       raise ee_exception.EEException('Invalid JSON: %s' % content)
+    782     if 'error' in json_content:
+--&gt; 783       raise ee_exception.EEException(json_content['error']['message'])
+    784     if 'data' not in content:
+    785       raise ee_exception.EEException('Malformed response: ' + str(content))
+
+
+EEException: Too many requests to Fusion Tables.
+</code></pre>
+</div>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">pickle</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">'df_list.pickle'</span><span class="p">,</span> <span class="s">'wb'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">df_list</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">pickle</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">'df_list.pickle'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">loaded_obj</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="n">df_list</span> <span class="o">=</span> <span class="n">loaded_obj</span>
+</code></pre>
+</div>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="nb">len</span><span class="p">(</span><span class="n">df_list</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>33
+</code></pre>
+</div>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">33</span><span class="p">,</span> <span class="mi">100</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+    <span class="n">df_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fc2df</span><span class="p">(</span><span class="n">sample</span><span class="p">(</span><span class="n">i</span><span class="p">)))</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>33
+33
+34
+34
+35
+35
+36
+36
+37
+37
+38
+
+
+
+
+
+EEExceptionTraceback (most recent call last)
+
+&lt;ipython-input-10-b21a6c0c13a2&gt; in &lt;module&gt;()
+      1 for i in range(33, 100):
+      2     print(i)
+----&gt; 3     df_list.append(fc2df(sample(i)))
+      4     print(i)
+
+
+&lt;ipython-input-9-3c38214d1753&gt; in fc2df(fc)
+     16
+     17     # Features is a list of dict with the output
+---&gt; 18     features = fc.getInfo()['features']
+     19
+     20     dictarr = []
+
+
+/home/andrew/miniconda2/lib/python2.7/site-packages/ee/collection.pyc in getInfo(self)
+    125            properties.
+    126     """
+--&gt; 127     return super(Collection, self).getInfo()
+    128
+    129   def limit(self, maximum, opt_property=None, opt_ascending=None):
+
+
+/home/andrew/miniconda2/lib/python2.7/site-packages/ee/computedobject.pyc in getInfo(self)
+     93       The object can evaluate to anything.
+     94     """
+---&gt; 95     return data.getValue({'json': self.serialize()})
+     96
+     97   def encode(self, encoder):
+
+
+/home/andrew/miniconda2/lib/python2.7/site-packages/ee/data.pyc in getValue(params)
+    253   """
+    254   params['json_format'] = 'v2'
+--&gt; 255   return send_('/value', params)
+    256
+    257
+
+
+/home/andrew/miniconda2/lib/python2.7/site-packages/ee/data.pyc in send_(path, params, opt_method, opt_raw)
+    781       raise ee_exception.EEException('Invalid JSON: %s' % content)
+    782     if 'error' in json_content:
+--&gt; 783       raise ee_exception.EEException(json_content['error']['message'])
+    784     if 'data' not in content:
+    785       raise ee_exception.EEException('Malformed response: ' + str(content))
+
+
+EEException: Too many requests to Fusion Tables.
+</code></pre>
+</div>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="nb">len</span><span class="p">(</span><span class="n">df_list</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>38
+</code></pre>
+</div>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">df_list</span><span class="p">),</span> <span class="mi">100</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+    <span class="n">df_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fc2df</span><span class="p">(</span><span class="n">sample</span><span class="p">(</span><span class="n">i</span><span class="p">)))</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>43
+43
+44
+44
+45
+45
+46
+
+
+
+
+
+EEExceptionTraceback (most recent call last)
+
+&lt;ipython-input-15-abd9bc6ed5c5&gt; in &lt;module&gt;()
+      1 for i in range(len(df_list), 100):
+      2     print(i)
+----&gt; 3     df_list.append(fc2df(sample(i)))
+      4     print(i)
+
+
+&lt;ipython-input-9-3c38214d1753&gt; in fc2df(fc)
+     16
+     17     # Features is a list of dict with the output
+---&gt; 18     features = fc.getInfo()['features']
+     19
+     20     dictarr = []
+
+
+/home/andrew/miniconda2/lib/python2.7/site-packages/ee/collection.pyc in getInfo(self)
+    125            properties.
+    126     """
+--&gt; 127     return super(Collection, self).getInfo()
+    128
+    129   def limit(self, maximum, opt_property=None, opt_ascending=None):
+
+
+/home/andrew/miniconda2/lib/python2.7/site-packages/ee/computedobject.pyc in getInfo(self)
+     93       The object can evaluate to anything.
+     94     """
+---&gt; 95     return data.getValue({'json': self.serialize()})
+     96
+     97   def encode(self, encoder):
+
+
+/home/andrew/miniconda2/lib/python2.7/site-packages/ee/data.pyc in getValue(params)
+    253   """
+    254   params['json_format'] = 'v2'
+--&gt; 255   return send_('/value', params)
+    256
+    257
+
+
+/home/andrew/miniconda2/lib/python2.7/site-packages/ee/data.pyc in send_(path, params, opt_method, opt_raw)
+    781       raise ee_exception.EEException('Invalid JSON: %s' % content)
+    782     if 'error' in json_content:
+--&gt; 783       raise ee_exception.EEException(json_content['error']['message'])
+    784     if 'data' not in content:
+    785       raise ee_exception.EEException('Malformed response: ' + str(content))
+
+
+EEException: Too many requests to Fusion Tables.
+</code></pre>
+</div>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="c">#this downloads data, and waits for google when it needs to</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
+<span class="k">def</span> <span class="nf">sampler</span><span class="p">():</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">df_list</span><span class="p">),</span> <span class="mi">100</span><span class="p">):</span>
+            <span class="k">print</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">+</span> <span class="s">' started'</span><span class="p">)</span>
+            <span class="n">df_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fc2df</span><span class="p">(</span><span class="n">sample</span><span class="p">(</span><span class="n">i</span><span class="p">)))</span>
+            <span class="k">print</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">+</span> <span class="s">' complete!'</span><span class="p">)</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="c">#save progress</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">'Exception, saving progress'</span><span class="p">)</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">'prog_file.pickle'</span><span class="p">,</span> <span class="s">'wb'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">df_list</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
+        <span class="c">#wait for 10 minutes to give Google a break</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">'Waiting'</span><span class="p">)</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">600</span><span class="p">)</span>
+        <span class="c">#resume</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">'Resume'</span><span class="p">)</span>
+        <span class="n">sampler</span><span class="p">()</span>  
+
+<span class="n">sampler</span><span class="p">()</span>
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>46 started
+46 complete!
+47 started
+47 complete!
+48 started
+48 complete!
+49 started
+49 complete!
+50 started
+50 complete!
+51 started
+51 complete!
+52 started
+52 complete!
+53 started
+53 complete!
+54 started
+54 complete!
+55 started
+55 complete!
+56 started
+56 complete!
+57 started
+57 complete!
+58 started
+58 complete!
+59 started
+Exception, saving progress
+Waiting
+95 complete!
+96 started
+96 complete!
+97 started
+97 complete!
+98 started
+98 complete!
+99 started
+99 complete!
+</code></pre>
+</div>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="nb">len</span><span class="p">(</span><span class="n">df_list</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>100
+</code></pre>
+</div>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">statsmodels.formula.api</span> <span class="kn">as</span> <span class="nn">sm</span>
+
+<span class="kn">import</span> <span class="nn">pickle</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">'df_list.pickle'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">df_list</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">df_list</span><span class="p">)</span>
+
+<span class="c">#fix loss variable</span>
+<span class="n">df</span><span class="p">[</span><span class="s">'lossyear'</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s">'lossyear'</span><span class="p">]</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+<span class="c">#convert precipitation to centimeters</span>
+<span class="n">df</span><span class="p">[</span><span class="s">'precip'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s">'precipitation_sum'</span><span class="p">]</span> <span class="o">*</span> <span class="mi">10</span>
+<span class="n">df</span><span class="p">[</span><span class="s">'precip2'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s">'precip'</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span>
+<span class="n">df</span><span class="p">[</span><span class="s">'abs_precip'</span><span class="p">]</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s">'precip'</span><span class="p">])</span>
+<span class="n">df</span><span class="p">[</span><span class="s">'abs_precip2'</span><span class="p">]</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s">'precip2'</span><span class="p">])</span>
+
+<span class="n">df</span><span class="p">[</span><span class="s">'precip_positive'</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s">'precip'</span><span class="p">]</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="s">'precip'</span><span class="p">],</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">df</span><span class="p">[</span><span class="s">'precip_negative'</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s">'precip'</span><span class="p">]</span><span class="o">&lt;</span><span class="mi">0</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="s">'abs_precip'</span><span class="p">],</span> <span class="mi">0</span><span class="p">)</span>
+
+<span class="n">df</span><span class="p">[</span><span class="s">'pp2'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s">'precip_positive'</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span>
+<span class="n">df</span><span class="p">[</span><span class="s">'pn2'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s">'precip_negative'</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="n">formula</span><span class="o">=</span><span class="s">"lossyear ~ -1 + precip  + precip2  + C(year)"</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+
+<span class="k">print</span> <span class="n">result</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:               lossyear   R-squared:                       0.000
+Model:                            OLS   Adj. R-squared:                  0.000
+Method:                 Least Squares   F-statistic:                     8.333
+Date:                Wed, 20 Sep 2017   Prob (F-statistic):           1.47e-20
+Time:                        00:21:51   Log-Likelihood:             4.8956e+05
+No. Observations:              299730   AIC:                        -9.791e+05
+Df Residuals:                  299713   BIC:                        -9.789e+05
+Df Model:                          16                                         
+Covariance Type:            nonrobust                                         
+=================================================================================
+                    coef    std err          t      P&gt;|t|      [0.025      0.975]
+---------------------------------------------------------------------------------
+C(year)[-7.0]     0.0005      0.000      1.092      0.275      -0.000       0.001
+C(year)[-6.0]     0.0014      0.000      3.916      0.000       0.001       0.002
+C(year)[-5.0]     0.0011      0.000      3.148      0.002       0.000       0.002
+C(year)[-4.0]     0.0026      0.000      7.724      0.000       0.002       0.003
+C(year)[-3.0]     0.0022      0.000      5.844      0.000       0.001       0.003
+C(year)[-2.0]     0.0022      0.000      6.535      0.000       0.002       0.003
+C(year)[-1.0]     0.0028      0.000      7.414      0.000       0.002       0.003
+C(year)[0.0]      0.0028      0.000      8.141      0.000       0.002       0.003
+C(year)[1.0]      0.0040      0.000     11.740      0.000       0.003       0.005
+C(year)[2.0]      0.0025      0.000      7.454      0.000       0.002       0.003
+C(year)[3.0]      0.0026      0.000      7.486      0.000       0.002       0.003
+C(year)[4.0]      0.0018      0.000      5.437      0.000       0.001       0.003
+C(year)[5.0]      0.0030      0.000      8.787      0.000       0.002       0.004
+C(year)[6.0]      0.0025      0.000      7.351      0.000       0.002       0.003
+C(year)[7.0]     -0.0002      0.000     -0.630      0.529      -0.001       0.000
+precip        -5.626e-08   6.03e-08     -0.933      0.351   -1.74e-07    6.19e-08
+precip2        3.928e-11   1.98e-11      1.980      0.048    4.06e-13    7.82e-11
+==============================================================================
+Omnibus:                   664180.405   Durbin-Watson:                   2.005
+Prob(Omnibus):                  0.000   Jarque-Bera (JB):       2454264283.831
+Skew:                          21.050   Prob(JB):                         0.00
+Kurtosis:                     444.300   Cond. No.                     3.39e+07
+==============================================================================
+
+Warnings:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+[2] The condition number is large, 3.39e+07. This might indicate that there are
+strong multicollinearity or other numerical problems.
+</code></pre>
+</div>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
+
+<span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">stats</span><span class="p">,</span> <span class="n">integrate</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="kn">as</span> <span class="nn">sns</span>
+<span class="n">sns</span><span class="o">.</span><span class="nb">set</span><span class="p">(</span><span class="n">color_codes</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">distplot</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s">'precip'</span><span class="p">])</span>
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x7f5540b75610&gt;
+</code></pre>
+</div>
+
+<p><img src="Earth%20Engine%20Econometrics%20v2_files/Earth%20Engine%20Econometrics%20v2_28_1.png" alt="png" /></p>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="n">sns</span><span class="o">.</span><span class="n">distplot</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s">'rain_bin'</span><span class="p">])</span>
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x7f9f5b690650&gt;
+</code></pre>
+</div>
+
+<p><img src="Earth%20Engine%20Econometrics%20v2_files/Earth%20Engine%20Econometrics%20v2_29_1.png" alt="png" /></p>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="n">precip_sd</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s">'precip'</span><span class="p">]))</span>
+<span class="n">precip_min</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="nb">min</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s">'precip'</span><span class="p">])</span>
+<span class="n">precip_max</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="nb">max</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s">'precip'</span><span class="p">])</span>
+
+<span class="c"># define bins</span>
+<span class="n">bins</span> <span class="o">=</span> <span class="p">[</span><span class="n">precip_min</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="n">precip_sd</span><span class="p">,</span> <span class="o">-</span><span class="n">precip_sd</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">precip_sd</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">precip_sd</span><span class="p">,</span> <span class="n">precip_max</span><span class="p">]</span>
+
+<span class="c"># generate a variable designating bins</span>
+<span class="n">df</span><span class="p">[</span><span class="s">'rain_bin'</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">digitize</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">precip</span><span class="p">,</span> <span class="n">bins</span><span class="p">)</span>
+
+<span class="c">#df = pd.concat([df, pd.get_dummies(df['rain_bin'])])</span>
+
+<span class="c"># run binned regression</span>
+<span class="n">bin_result</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="n">formula</span><span class="o">=</span><span class="s">"lossyear ~ -1 + C(rain_bin)  + C(year)"</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+
+<span class="k">print</span> <span class="n">bin_result</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:               lossyear   R-squared:                       0.000
+Model:                            OLS   Adj. R-squared:                  0.000
+Method:                 Least Squares   F-statistic:                     6.785
+Date:                Wed, 20 Sep 2017   Prob (F-statistic):           3.33e-19
+Time:                        01:11:15   Log-Likelihood:             4.8956e+05
+No. Observations:              299730   AIC:                        -9.791e+05
+Df Residuals:                  299709   BIC:                        -9.789e+05
+Df Model:                          20                                         
+Covariance Type:            nonrobust                                         
+===================================================================================
+                      coef    std err          t      P&gt;|t|      [0.025      0.975]
+-----------------------------------------------------------------------------------
+C(rain_bin)[1]   5.938e-05      0.001      0.057      0.955      -0.002       0.002
+C(rain_bin)[2]      0.0007      0.000      1.579      0.114      -0.000       0.002
+C(rain_bin)[3]      0.0006      0.000      1.331      0.183      -0.000       0.001
+C(rain_bin)[4]      0.0002      0.000      0.580      0.562      -0.001       0.001
+C(rain_bin)[5]      0.0005      0.000      1.068      0.286      -0.000       0.001
+C(rain_bin)[6]      0.0014      0.000      2.868      0.004       0.000       0.002
+C(rain_bin)[7]   5.971e-17      0.011   5.51e-15      1.000      -0.021       0.021
+C(year)[T.-6.0]     0.0010      0.001      1.934      0.053   -1.35e-05       0.002
+C(year)[T.-5.0]     0.0007      0.001      1.325      0.185      -0.000       0.002
+C(year)[T.-4.0]     0.0023      0.001      4.483      0.000       0.001       0.003
+C(year)[T.-3.0]     0.0019      0.001      3.592      0.000       0.001       0.003
+C(year)[T.-2.0]     0.0018      0.001      3.554      0.000       0.001       0.003
+C(year)[T.-1.0]     0.0024      0.000      4.850      0.000       0.001       0.003
+C(year)[T.0.0]      0.0024      0.001      4.585      0.000       0.001       0.003
+C(year)[T.1.0]      0.0036      0.001      6.829      0.000       0.003       0.005
+C(year)[T.2.0]      0.0021      0.001      4.006      0.000       0.001       0.003
+C(year)[T.3.0]      0.0022      0.001      4.135      0.000       0.001       0.003
+C(year)[T.4.0]      0.0015      0.001      2.808      0.005       0.000       0.002
+C(year)[T.5.0]      0.0026      0.001      5.033      0.000       0.002       0.004
+C(year)[T.6.0]      0.0021      0.001      4.058      0.000       0.001       0.003
+C(year)[T.7.0]     -0.0006      0.001     -1.061      0.289      -0.002       0.000
+==============================================================================
+Omnibus:                   664176.995   Durbin-Watson:                   2.005
+Prob(Omnibus):                  0.000   Jarque-Bera (JB):       2454185740.680
+Skew:                          21.050   Prob(JB):                         0.00
+Kurtosis:                     444.293   Cond. No.                         80.4
+==============================================================================
+
+Warnings:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+</code></pre>
+</div>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code>
+</code></pre>
+</div>
+
+      </div>
+      
+    </article>
+
+    <footer id="footer" class="site-footer">
+  <div class="copyright">
+    
+      <p>&copy; 2017 hobbservations.</p>
+    
+  </div>
+</footer>
+
+  </div>
+</main>
+
+      </div>
+    </div>
+
+    
+
+<script async src="/assets/javascripts/main.js"></script>
+
+  </body>
+
+</html>
