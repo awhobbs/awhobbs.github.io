@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.5.2">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2017-10-04T23:43:17-07:00</updated><id>/</id><title type="html">hobbservations</title><subtitle>Climate change, natural resources, data, and more.
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.5.2">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2017-10-06T12:22:44-07:00</updated><id>/</id><title type="html">hobbservations</title><subtitle>Climate change, natural resources, data, and more.
 </subtitle><entry><title type="html">Earth Engine Econometrics</title><link href="/2017/10/01/Earth-Engine-Econometrics.html" rel="alternate" type="text/html" title="Earth Engine Econometrics" /><published>2017-10-01T12:52:56-07:00</published><updated>2017-10-01T12:52:56-07:00</updated><id>/2017/10/01/Earth-Engine-Econometrics</id><content type="html" xml:base="/2017/10/01/Earth-Engine-Econometrics.html">&lt;p&gt;Google Earth Engine is not built to do econometrics, but it makes doing so with geographic data from a low-powered (and small hard-drived) computer practical.&lt;/p&gt;
 
 &lt;p&gt;The basic steps are:&lt;/p&gt;
@@ -6,11 +6,8 @@
 &lt;ol&gt;
   &lt;li&gt;Import the layers of data you desire.&lt;/li&gt;
   &lt;li&gt;Create new layers of data for other variables, such as year effects and perhaps a constant.&lt;/li&gt;
-  &lt;li&gt;Use a reducer to smooth data across space (if desired). For relationships between a pixel and nearby pixels, rather than just on the values of other layers at the same pixel.&lt;/li&gt;
-  &lt;li&gt;Create a &lt;code class=&quot;highlighter-rouge&quot;&gt;FeatureCollection&lt;/code&gt; from a random sample of pixels. Calculate OLS coefficients and standard errors. Repeat.&lt;/li&gt;
+  &lt;li&gt;Randomly sample pixels and convert them to a geopandas dataframe for regression analysis.&lt;/li&gt;
 &lt;/ol&gt;
-
-&lt;p&gt;The bootstrap approach in the last step may not be necessary if you’re only analyzing a small area, but Earth Engine limits the amount of data to about 100M.&lt;/p&gt;
 
 &lt;h1 id=&quot;import-the-data&quot;&gt;Import the data&lt;/h1&gt;
 
@@ -31,16 +28,16 @@
 &lt;span class=&quot;c&quot;&gt;#gfc = ee.Image('UMD/hansen/global_forest_change_2015_v1_3').clip(moz)&lt;/span&gt;
 &lt;span class=&quot;n&quot;&gt;gfc&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ee&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Image&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'UMD/hansen/global_forest_change_2015'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;clip&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;moz&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-
-
 &lt;span class=&quot;c&quot;&gt;# Get the image for forest cover in 2000. Will be used to restrict the regression,&lt;/span&gt;
 &lt;span class=&quot;c&quot;&gt;# since we are only interested in forest loss where there was once forest&lt;/span&gt;
 &lt;span class=&quot;n&quot;&gt;moz_treecover2000&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;gfc&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;select&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'treecover2000'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
 &lt;span class=&quot;c&quot;&gt;# Get PERSIANN rainfall data, clip to Mozambique&lt;/span&gt;
 &lt;span class=&quot;n&quot;&gt;persiann&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ee&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ImageCollection&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'NOAA/PERSIANN-CDR'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;select&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'precipitation'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;filterBounds&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;moz&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
 
-&lt;span class=&quot;c&quot;&gt;# Convert to a collection of annual images&lt;/span&gt;
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# Convert to a collection of annual images&lt;/span&gt;
 &lt;span class=&quot;c&quot;&gt;# The Hansen data starts out as a single image, so we need to split it up&lt;/span&gt;
 &lt;span class=&quot;c&quot;&gt;# The precipitation data needs to be added up&lt;/span&gt;
 
@@ -79,13 +76,11 @@
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://earthengine.googleapis.com/api/thumb?thumbid=be0e9627933bbdffc1de50b892d3a0c7&amp;amp;token=c261eb76501f893004da7cba5adf56f9&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/img/loss.png&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;It is worth displaying the data to make sure it makes sense. Let’s write a quick helper function to look at data for a given year&lt;/p&gt;
+&lt;p&gt;It is worth displaying the data to make sure it makes sense. Let’s write a quick helper function to look at data for a given year and then display a map of average total precipitation.&lt;/p&gt;
 
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;IPython.display&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Image&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;average_image&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mean&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;average_image&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mean&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
 
 &lt;span class=&quot;n&quot;&gt;Image&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;url&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;average_image&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;getThumbUrl&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt;
       &lt;span class=&quot;s&quot;&gt;'region'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;moz&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;geometry&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;bounds&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;getInfo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(),&lt;/span&gt;
@@ -95,9 +90,11 @@
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://earthengine.googleapis.com/api/thumb?thumbid=3b636b10341333be704db8fae55096bd&amp;amp;token=f103cf28c245c2c23ca4418eef69c375&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/img/rain.png&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;It looks like we have the right data. However, a very small share of pixels are deforested in a given year. This is of course a good thing. However, if we take a sample, we may get all zeroes. Let’s see how much deforestation there is in each year.&lt;/p&gt;
+&lt;p&gt;It looks like we have the right data - the dry areas are where expected (the dark area in the lower left, for example) and the rainier areas are also as expected (the North, where there is greater rainfall).&lt;/p&gt;
+
+&lt;p&gt;Now we can try using Earth Engine’s regression function. When we apply it across all of Mozambique, we get&lt;/p&gt;
 
 &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# Run the regression for all of Mozambique&lt;/span&gt;
 &lt;span class=&quot;n&quot;&gt;mean_data&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mean&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;select&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'year'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'precipitation_sum'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'lossyear'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
@@ -122,21 +119,11 @@
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;err&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;export&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;LD_LIBRARY_PATH&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;usr&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;local&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;lib&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;p&gt;This gives us an ‘average’ result for the entire dataset. However, this function does not return standard errors, and does not allow us to conduct a panel regression. In order to do that, the easiest way forward is to download a sample of the data and analyze it locally using &lt;code class=&quot;highlighter-rouge&quot;&gt;pandas&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;statsmodels&lt;/code&gt;. I conducted this analysis on a remote &lt;a href=&quot;https://www.digitalocean.com/&quot;&gt;Digital Ocean&lt;/a&gt; server, but it could also be done on a local machine (or using Google Compute Engine, AWS, or some other server).&lt;/p&gt;
 
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;err&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;export&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;LD_LIBRARY_PATH&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;usr&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;local&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;lib&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;LD_LIBRARY_PATH&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;h1 id=&quot;random-samples-to-analysis&quot;&gt;Random Samples to Analysis&lt;/h1&gt;
 
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;err&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;LD_LIBRARY_PATH&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;/usr/local/lib
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;p&gt;The code below includes functions to de-mean the data, randomly sample pixels from it, and convert a feature collection to a geopandas dataframe.&lt;/p&gt;
 
 &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;geopandas&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;GeoDataFrame&lt;/span&gt;
 &lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;shapely.geometry&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;shape&lt;/span&gt;
@@ -174,453 +161,8 @@
     &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;
 &lt;span class=&quot;c&quot;&gt;# End fc2df&lt;/span&gt;
 
-&lt;span class=&quot;c&quot;&gt;# This is a three step process&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# demean all the data&lt;/span&gt;
 &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;map&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;demean&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;c&quot;&gt;#rand_data = sample(1234)&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;#print rand_data.getInfo()&lt;/span&gt;
-
-&lt;span class=&quot;c&quot;&gt;#generate a bunch of seeds to get different datasets&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;seeds&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-
-&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fc2df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sample&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;350&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;#results[1] = sm.ols(formula=&quot;lossyear ~ precip + precip2  + C(year)&quot;, data=df).fit()&lt;/span&gt;
-
-&lt;span class=&quot;c&quot;&gt;#for seed in seeds:&lt;/span&gt;
- &lt;span class=&quot;c&quot;&gt;#   df = pd.concat(df, fc2df(sample(seed)))&lt;/span&gt;
-
-&lt;span class=&quot;c&quot;&gt;#random_sets = map(sample, seeds)&lt;/span&gt;
-
-&lt;span class=&quot;c&quot;&gt;#dfs = map(fc2df, random_sets)&lt;/span&gt;
-
-&lt;span class=&quot;c&quot;&gt;#print random_sets.getInfo()&lt;/span&gt;
-
-&lt;span class=&quot;c&quot;&gt;#dfs = fc2df(random_sets) #.map(fc2df)&lt;/span&gt;
-
-&lt;span class=&quot;c&quot;&gt;#df = fc2df(rand_data)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;pandas&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;pd&lt;/span&gt;
-&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;numpy&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;np&lt;/span&gt;
-&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;statsmodels.formula.api&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;sm&lt;/span&gt;
-
-&lt;span class=&quot;c&quot;&gt;#fix loss variable&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'lossyear'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;np&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;where&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'lossyear'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;c&quot;&gt;#convert precipitation to centimeters&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'precip'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'precipitation_sum'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'precip2'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'precip'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;**&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'abs_precip'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;abs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'precip'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'abs_precip2'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;abs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'precip2'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'precip_positive'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;np&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;where&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'precip'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'precip'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'precip_negative'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;np&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;where&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'precip'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'abs_precip'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'pp2'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'precip_positive'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;**&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'pn2'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'precip_negative'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;**&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;describe&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;          lossyear  precipitation_sum         year        precip  \
-count  1500.000000       1.500000e+03  1500.000000  1.500000e+03   
-mean      0.001333      -2.425319e-15     0.000000 -3.880511e-14   
-std       0.036503       1.860262e+02     4.321935  1.860262e+03   
-min       0.000000      -5.140513e+02    -7.000000 -5.140513e+03   
-25%       0.000000      -1.326161e+02    -4.000000 -1.326161e+03   
-50%       0.000000      -1.136403e+01     0.000000 -1.136403e+02   
-75%       0.000000       1.155503e+02     4.000000  1.155503e+03   
-max       1.000000       7.390148e+02     7.000000  7.390148e+03   
-
-            precip2   abs_precip   abs_precip2  precip_positive  \
-count  1.500000e+03  1500.000000  1.500000e+03      1500.000000   
-mean   3.458267e+06  1467.805797  3.458267e+06       733.902899   
-std    5.355807e+06  1142.227382  5.355807e+06      1176.277739   
-min    2.009662e-01     0.448292  2.009662e-01         0.000000   
-25%    3.194985e+05   565.241225  3.194985e+05         0.000000   
-50%    1.588682e+06  1260.429232  1.588682e+06         0.000000   
-75%    4.218607e+06  2053.924785  4.218607e+06      1155.502943   
-max    5.461428e+07  7390.147807  5.461428e+07      7390.147807   
-
-       precip_negative           pp2           pn2  
-count      1500.000000  1.500000e+03  1.500000e+03  
-mean        733.902899  1.921320e+06  1.536947e+06  
-std         999.499690  5.013597e+06  3.075449e+06  
-min           0.000000  0.000000e+00  0.000000e+00  
-25%           0.000000  0.000000e+00  0.000000e+00  
-50%         113.640259  0.000000e+00  1.291522e+04  
-75%        1326.161423  1.335188e+06  1.758709e+06  
-max        5140.513269  5.461428e+07  2.642488e+07  
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sm&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;formula&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;lossyear ~ -1 + abs_precip + abs_precip2    + C(year)&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;result&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;summary&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;                            OLS Regression Results                            
-==============================================================================
-Dep. Variable:               lossyear   R-squared:                       0.020
-Model:                            OLS   Adj. R-squared:                  0.009
-Method:                 Least Squares   F-statistic:                     1.851
-Date:                Tue, 22 Aug 2017   Prob (F-statistic):             0.0210
-Time:                        16:09:55   Log-Likelihood:                 2852.5
-No. Observations:                1500   AIC:                            -5671.
-Df Residuals:                    1483   BIC:                            -5581.
-Df Model:                          16                                         
-Covariance Type:            nonrobust                                         
-=================================================================================
-                    coef    std err          t      P&amp;gt;|t|      [0.025      0.975]
----------------------------------------------------------------------------------
-C(year)[-7.0]    -0.0027      0.005     -0.575      0.565      -0.012       0.006
-C(year)[-6.0]    -0.0025      0.004     -0.589      0.556      -0.011       0.006
-C(year)[-5.0]    -0.0016      0.004     -0.419      0.676      -0.009       0.006
-C(year)[-4.0]     0.0181      0.004      4.528      0.000       0.010       0.026
-C(year)[-3.0]    -0.0027      0.004     -0.619      0.536      -0.011       0.006
-C(year)[-2.0]    -0.0020      0.004     -0.484      0.628      -0.010       0.006
-C(year)[-1.0]    -0.0028      0.004     -0.635      0.525      -0.011       0.006
-C(year)[0.0]     -0.0023      0.004     -0.555      0.579      -0.010       0.006
-C(year)[1.0]     -0.0021      0.004     -0.513      0.608      -0.010       0.006
-C(year)[2.0]     -0.0017      0.004     -0.430      0.668      -0.009       0.006
-C(year)[3.0]     -0.0020      0.004     -0.485      0.628      -0.010       0.006
-C(year)[4.0]     -0.0020      0.004     -0.498      0.619      -0.010       0.006
-C(year)[5.0]     -0.0018      0.004     -0.460      0.646      -0.010       0.006
-C(year)[6.0]     -0.0020      0.004     -0.500      0.617      -0.010       0.006
-C(year)[7.0]     -0.0025      0.004     -0.586      0.558      -0.011       0.006
-abs_precip     2.284e-06   2.21e-06      1.033      0.302   -2.05e-06    6.62e-06
-abs_precip2    -3.44e-10   4.86e-10     -0.708      0.479    -1.3e-09    6.09e-10
-==============================================================================
-Omnibus:                     3775.739   Durbin-Watson:                   2.039
-Prob(Omnibus):                  0.000   Jarque-Bera (JB):         32216884.687
-Skew:                          26.521   Prob(JB):                         0.00
-Kurtosis:                     719.000   Cond. No.                     5.55e+07
-==============================================================================
-
-Warnings:
-[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
-[2] The condition number is large, 5.55e+07. This might indicate that there are
-strong multicollinearity or other numerical problems.
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;memory_usage&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Index                   72
-geometry             12800
-lossyear             12800
-precipitation_sum    12800
-year                 12800
-precip               12800
-precip2              12800
-dtype: int64
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  File &quot;&amp;lt;unknown&amp;gt;&quot;, line 1
-    .
-    ^
-SyntaxError: invalid syntax
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# Load a landsat image and select three bands.&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;landsat&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ee&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Image&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'LANDSAT/LC8_L1T_TOA/LC81230322014135LGN00'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;select&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'B4'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'B3'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'B2'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
-
-&lt;span class=&quot;c&quot;&gt;# Create a geometry representing an export region.&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;geometry&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ee&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Geometry&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Rectangle&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;116.2621&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;39.8412&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;116.4849&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;40.01236&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
-
-&lt;span class=&quot;c&quot;&gt;# Export the image, specifying scale and region.&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;task&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ee&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;batch&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Export&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;image&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;toDrive&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;image&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;landsat&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;description&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'imageToDriveWithRegion'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;scale&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;30&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;region&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;geometry&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;toGeoJSON&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;task&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;start&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;df_list&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;range&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;100&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;df_list&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fc2df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sample&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)))&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;0
-0
-1
-1
-2
-2
-3
-3
-4
-4
-5
-5
-6
-6
-7
-7
-8
-8
-9
-9
-10
-10
-11
-11
-12
-12
-13
-13
-14
-14
-15
-15
-16
-16
-17
-17
-18
-18
-19
-19
-20
-20
-21
-21
-22
-22
-23
-23
-24
-24
-25
-25
-26
-26
-27
-27
-28
-28
-29
-29
-30
-30
-31
-31
-32
-
-
-
----------------------------------------------------------------------------
-
-EEException                               Traceback (most recent call last)
-
-&amp;lt;ipython-input-5-e97ea83a92da&amp;gt; in &amp;lt;module&amp;gt;()
-      3 for i in range(0, 100):
-      4     print(i)
-----&amp;gt; 5     df_list.append(fc2df(sample(i)))
-      6     print(i)
-      7
-
-
-&amp;lt;ipython-input-2-3c38214d1753&amp;gt; in fc2df(fc)
-     16
-     17     # Features is a list of dict with the output
----&amp;gt; 18     features = fc.getInfo()['features']
-     19
-     20     dictarr = []
-
-
-/home/andrew/miniconda2/lib/python2.7/site-packages/ee/collection.pyc in getInfo(self)
-    125            properties.
-    126     &quot;&quot;&quot;
---&amp;gt; 127     return super(Collection, self).getInfo()
-    128
-    129   def limit(self, maximum, opt_property=None, opt_ascending=None):
-
-
-/home/andrew/miniconda2/lib/python2.7/site-packages/ee/computedobject.pyc in getInfo(self)
-     93       The object can evaluate to anything.
-     94     &quot;&quot;&quot;
----&amp;gt; 95     return data.getValue({'json': self.serialize()})
-     96
-     97   def encode(self, encoder):
-
-
-/home/andrew/miniconda2/lib/python2.7/site-packages/ee/data.pyc in getValue(params)
-    253   &quot;&quot;&quot;
-    254   params['json_format'] = 'v2'
---&amp;gt; 255   return send_('/value', params)
-    256
-    257
-
-
-/home/andrew/miniconda2/lib/python2.7/site-packages/ee/data.pyc in send_(path, params, opt_method, opt_raw)
-    781       raise ee_exception.EEException('Invalid JSON: %s' % content)
-    782     if 'error' in json_content:
---&amp;gt; 783       raise ee_exception.EEException(json_content['error']['message'])
-    784     if 'data' not in content:
-    785       raise ee_exception.EEException('Malformed response: ' + str(content))
-
-
-EEException: Too many requests to Fusion Tables.
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;range&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;32&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;100&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;df_list&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fc2df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sample&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)))&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;32
-32
-33
-
-
-
----------------------------------------------------------------------------
-
-EEException                               Traceback (most recent call last)
-
-&amp;lt;ipython-input-6-a2f499c70000&amp;gt; in &amp;lt;module&amp;gt;()
-      1 for i in range(32, 100):
-      2     print(i)
-----&amp;gt; 3     df_list.append(fc2df(sample(i)))
-      4     print(i)
-
-
-&amp;lt;ipython-input-2-3c38214d1753&amp;gt; in fc2df(fc)
-     16
-     17     # Features is a list of dict with the output
----&amp;gt; 18     features = fc.getInfo()['features']
-     19
-     20     dictarr = []
-
-
-/home/andrew/miniconda2/lib/python2.7/site-packages/ee/collection.pyc in getInfo(self)
-    125            properties.
-    126     &quot;&quot;&quot;
---&amp;gt; 127     return super(Collection, self).getInfo()
-    128
-    129   def limit(self, maximum, opt_property=None, opt_ascending=None):
-
-
-/home/andrew/miniconda2/lib/python2.7/site-packages/ee/computedobject.pyc in getInfo(self)
-     93       The object can evaluate to anything.
-     94     &quot;&quot;&quot;
----&amp;gt; 95     return data.getValue({'json': self.serialize()})
-     96
-     97   def encode(self, encoder):
-
-
-/home/andrew/miniconda2/lib/python2.7/site-packages/ee/data.pyc in getValue(params)
-    253   &quot;&quot;&quot;
-    254   params['json_format'] = 'v2'
---&amp;gt; 255   return send_('/value', params)
-    256
-    257
-
-
-/home/andrew/miniconda2/lib/python2.7/site-packages/ee/data.pyc in send_(path, params, opt_method, opt_raw)
-    781       raise ee_exception.EEException('Invalid JSON: %s' % content)
-    782     if 'error' in json_content:
---&amp;gt; 783       raise ee_exception.EEException(json_content['error']['message'])
-    784     if 'data' not in content:
-    785       raise ee_exception.EEException('Malformed response: ' + str(content))
-
-
-EEException: Too many requests to Fusion Tables.
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;range&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;33&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;100&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;df_list&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fc2df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sample&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)))&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;33
-33
-34
-34
-35
-
-
-
----------------------------------------------------------------------------
-
-EEException                               Traceback (most recent call last)
-
-&amp;lt;ipython-input-13-b21a6c0c13a2&amp;gt; in &amp;lt;module&amp;gt;()
-      1 for i in range(33, 100):
-      2     print(i)
-----&amp;gt; 3     df_list.append(fc2df(sample(i)))
-      4     print(i)
-
-
-&amp;lt;ipython-input-2-3c38214d1753&amp;gt; in fc2df(fc)
-     16
-     17     # Features is a list of dict with the output
----&amp;gt; 18     features = fc.getInfo()['features']
-     19
-     20     dictarr = []
-
-
-/home/andrew/miniconda2/lib/python2.7/site-packages/ee/collection.pyc in getInfo(self)
-    125            properties.
-    126     &quot;&quot;&quot;
---&amp;gt; 127     return super(Collection, self).getInfo()
-    128
-    129   def limit(self, maximum, opt_property=None, opt_ascending=None):
-
-
-/home/andrew/miniconda2/lib/python2.7/site-packages/ee/computedobject.pyc in getInfo(self)
-     93       The object can evaluate to anything.
-     94     &quot;&quot;&quot;
----&amp;gt; 95     return data.getValue({'json': self.serialize()})
-     96
-     97   def encode(self, encoder):
-
-
-/home/andrew/miniconda2/lib/python2.7/site-packages/ee/data.pyc in getValue(params)
-    253   &quot;&quot;&quot;
-    254   params['json_format'] = 'v2'
---&amp;gt; 255   return send_('/value', params)
-    256
-    257
-
-
-/home/andrew/miniconda2/lib/python2.7/site-packages/ee/data.pyc in send_(path, params, opt_method, opt_raw)
-    781       raise ee_exception.EEException('Invalid JSON: %s' % content)
-    782     if 'error' in json_content:
---&amp;gt; 783       raise ee_exception.EEException(json_content['error']['message'])
-    784     if 'data' not in content:
-    785       raise ee_exception.EEException('Malformed response: ' + str(content))
-
-
-EEException: Too many requests to Fusion Tables.
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
@@ -631,183 +173,10 @@ EEException: Too many requests to Fusion Tables.
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;pickle&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;with&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;open&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'df_list.pickle'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;loaded_obj&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pickle&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;load&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;df_list&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;loaded_obj&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;df_list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;33
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;range&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;33&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;100&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;df_list&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fc2df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sample&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)))&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;33
-33
-34
-34
-35
-35
-36
-36
-37
-37
-38
-
-
-
-
-
-EEExceptionTraceback (most recent call last)
-
-&amp;lt;ipython-input-10-b21a6c0c13a2&amp;gt; in &amp;lt;module&amp;gt;()
-      1 for i in range(33, 100):
-      2     print(i)
-----&amp;gt; 3     df_list.append(fc2df(sample(i)))
-      4     print(i)
-
-
-&amp;lt;ipython-input-9-3c38214d1753&amp;gt; in fc2df(fc)
-     16
-     17     # Features is a list of dict with the output
----&amp;gt; 18     features = fc.getInfo()['features']
-     19
-     20     dictarr = []
-
-
-/home/andrew/miniconda2/lib/python2.7/site-packages/ee/collection.pyc in getInfo(self)
-    125            properties.
-    126     &quot;&quot;&quot;
---&amp;gt; 127     return super(Collection, self).getInfo()
-    128
-    129   def limit(self, maximum, opt_property=None, opt_ascending=None):
-
-
-/home/andrew/miniconda2/lib/python2.7/site-packages/ee/computedobject.pyc in getInfo(self)
-     93       The object can evaluate to anything.
-     94     &quot;&quot;&quot;
----&amp;gt; 95     return data.getValue({'json': self.serialize()})
-     96
-     97   def encode(self, encoder):
-
-
-/home/andrew/miniconda2/lib/python2.7/site-packages/ee/data.pyc in getValue(params)
-    253   &quot;&quot;&quot;
-    254   params['json_format'] = 'v2'
---&amp;gt; 255   return send_('/value', params)
-    256
-    257
-
-
-/home/andrew/miniconda2/lib/python2.7/site-packages/ee/data.pyc in send_(path, params, opt_method, opt_raw)
-    781       raise ee_exception.EEException('Invalid JSON: %s' % content)
-    782     if 'error' in json_content:
---&amp;gt; 783       raise ee_exception.EEException(json_content['error']['message'])
-    784     if 'data' not in content:
-    785       raise ee_exception.EEException('Malformed response: ' + str(content))
-
-
-EEException: Too many requests to Fusion Tables.
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;df_list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;38
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;range&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;df_list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;100&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;df_list&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fc2df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sample&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)))&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;43
-43
-44
-44
-45
-45
-46
-
-
-
-
-
-EEExceptionTraceback (most recent call last)
-
-&amp;lt;ipython-input-15-abd9bc6ed5c5&amp;gt; in &amp;lt;module&amp;gt;()
-      1 for i in range(len(df_list), 100):
-      2     print(i)
-----&amp;gt; 3     df_list.append(fc2df(sample(i)))
-      4     print(i)
-
-
-&amp;lt;ipython-input-9-3c38214d1753&amp;gt; in fc2df(fc)
-     16
-     17     # Features is a list of dict with the output
----&amp;gt; 18     features = fc.getInfo()['features']
-     19
-     20     dictarr = []
-
-
-/home/andrew/miniconda2/lib/python2.7/site-packages/ee/collection.pyc in getInfo(self)
-    125            properties.
-    126     &quot;&quot;&quot;
---&amp;gt; 127     return super(Collection, self).getInfo()
-    128
-    129   def limit(self, maximum, opt_property=None, opt_ascending=None):
-
-
-/home/andrew/miniconda2/lib/python2.7/site-packages/ee/computedobject.pyc in getInfo(self)
-     93       The object can evaluate to anything.
-     94     &quot;&quot;&quot;
----&amp;gt; 95     return data.getValue({'json': self.serialize()})
-     96
-     97   def encode(self, encoder):
-
-
-/home/andrew/miniconda2/lib/python2.7/site-packages/ee/data.pyc in getValue(params)
-    253   &quot;&quot;&quot;
-    254   params['json_format'] = 'v2'
---&amp;gt; 255   return send_('/value', params)
-    256
-    257
-
-
-/home/andrew/miniconda2/lib/python2.7/site-packages/ee/data.pyc in send_(path, params, opt_method, opt_raw)
-    781       raise ee_exception.EEException('Invalid JSON: %s' % content)
-    782     if 'error' in json_content:
---&amp;gt; 783       raise ee_exception.EEException(json_content['error']['message'])
-    784     if 'data' not in content:
-    785       raise ee_exception.EEException('Malformed response: ' + str(content))
-
-
-EEException: Too many requests to Fusion Tables.
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
 &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;#this downloads data, and waits for google when it needs to&lt;/span&gt;
 &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;time&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;df_list&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt;
 
 &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;sampler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;():&lt;/span&gt;
     &lt;span class=&quot;k&quot;&gt;try&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
@@ -831,52 +200,12 @@ EEException: Too many requests to Fusion Tables.
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;46 started
-46 complete!
-47 started
-47 complete!
-48 started
-48 complete!
-49 started
-49 complete!
-50 started
-50 complete!
-51 started
-51 complete!
-52 started
-52 complete!
-53 started
-53 complete!
-54 started
-54 complete!
-55 started
-55 complete!
-56 started
-56 complete!
-57 started
-57 complete!
-58 started
-58 complete!
-59 started
-Exception, saving progress
-Waiting
-95 complete!
-96 started
-96 complete!
-97 started
-97 complete!
-98 started
-98 complete!
-99 started
-99 complete!
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;p&gt;Now we can save the results by pickling them.&lt;/p&gt;
 
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;df_list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;pickle&lt;/span&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;100
+&lt;span class=&quot;k&quot;&gt;with&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;open&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'df_list_backup.pickle'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'wb'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;pickle&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dump&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;df_list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
@@ -884,6 +213,9 @@ Waiting
 &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;numpy&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;np&lt;/span&gt;
 &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;statsmodels.formula.api&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;sm&lt;/span&gt;
 
+
+&lt;span class=&quot;c&quot;&gt;# Import from pickle so we can simply start from this code block&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# in future runs&lt;/span&gt;
 &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;pickle&lt;/span&gt;
 
 &lt;span class=&quot;k&quot;&gt;with&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;open&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'df_list.pickle'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
@@ -912,50 +244,7 @@ Waiting
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;                            OLS Regression Results                            
-==============================================================================
-Dep. Variable:               lossyear   R-squared:                       0.000
-Model:                            OLS   Adj. R-squared:                  0.000
-Method:                 Least Squares   F-statistic:                     8.333
-Date:                Wed, 20 Sep 2017   Prob (F-statistic):           1.47e-20
-Time:                        00:21:51   Log-Likelihood:             4.8956e+05
-No. Observations:              299730   AIC:                        -9.791e+05
-Df Residuals:                  299713   BIC:                        -9.789e+05
-Df Model:                          16                                         
-Covariance Type:            nonrobust                                         
-=================================================================================
-                    coef    std err          t      P&amp;gt;|t|      [0.025      0.975]
----------------------------------------------------------------------------------
-C(year)[-7.0]     0.0005      0.000      1.092      0.275      -0.000       0.001
-C(year)[-6.0]     0.0014      0.000      3.916      0.000       0.001       0.002
-C(year)[-5.0]     0.0011      0.000      3.148      0.002       0.000       0.002
-C(year)[-4.0]     0.0026      0.000      7.724      0.000       0.002       0.003
-C(year)[-3.0]     0.0022      0.000      5.844      0.000       0.001       0.003
-C(year)[-2.0]     0.0022      0.000      6.535      0.000       0.002       0.003
-C(year)[-1.0]     0.0028      0.000      7.414      0.000       0.002       0.003
-C(year)[0.0]      0.0028      0.000      8.141      0.000       0.002       0.003
-C(year)[1.0]      0.0040      0.000     11.740      0.000       0.003       0.005
-C(year)[2.0]      0.0025      0.000      7.454      0.000       0.002       0.003
-C(year)[3.0]      0.0026      0.000      7.486      0.000       0.002       0.003
-C(year)[4.0]      0.0018      0.000      5.437      0.000       0.001       0.003
-C(year)[5.0]      0.0030      0.000      8.787      0.000       0.002       0.004
-C(year)[6.0]      0.0025      0.000      7.351      0.000       0.002       0.003
-C(year)[7.0]     -0.0002      0.000     -0.630      0.529      -0.001       0.000
-precip        -5.626e-08   6.03e-08     -0.933      0.351   -1.74e-07    6.19e-08
-precip2        3.928e-11   1.98e-11      1.980      0.048    4.06e-13    7.82e-11
-==============================================================================
-Omnibus:                   664180.405   Durbin-Watson:                   2.005
-Prob(Omnibus):                  0.000   Jarque-Bera (JB):       2454264283.831
-Skew:                          21.050   Prob(JB):                         0.00
-Kurtosis:                     444.300   Cond. No.                     3.39e+07
-==============================================================================
-
-Warnings:
-[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
-[2] The condition number is large, 3.39e+07. This might indicate that there are
-strong multicollinearity or other numerical problems.
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;p&gt;In the above we some some evidence that very high levels of precipitation are associated with increased forest loss. Of course, this is still a very crude regression. Instead of using a quadratic, we might also try bins. To explore that idea, let’s look at a histogram.&lt;/p&gt;
 
 &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;matplotlib&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;inline&lt;/span&gt;
 
@@ -968,21 +257,13 @@ strong multicollinearity or other numerical problems.
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;matplotlib.axes._subplots.AxesSubplot at 0x7f5540b75610&amp;gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;matplotlib.axes._subplots.AxesSubplot at 0x7f9f71c23910&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
-&lt;p&gt;&lt;img src=&quot;Earth%20Engine%20Econometrics%20v2_files/Earth%20Engine%20Econometrics%20v2_28_1.png&quot; alt=&quot;png&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/img/Earth%20Engine%20Econometrics_files/Earth%20Engine%20Econometrics_17_1.png&quot; alt=&quot;png&quot; /&gt;&lt;/p&gt;
 
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;sns&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;distplot&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'rain_bin'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;matplotlib.axes._subplots.AxesSubplot at 0x7f9f5b690650&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;&lt;img src=&quot;Earth%20Engine%20Econometrics%20v2_files/Earth%20Engine%20Econometrics%20v2_29_1.png&quot; alt=&quot;png&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;Now let’s generate some bins and see how they look:&lt;/p&gt;
 
 &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;precip_sd&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;np&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sqrt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;np&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;var&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'precip'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]))&lt;/span&gt;
 &lt;span class=&quot;n&quot;&gt;precip_min&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;np&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;min&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'precip'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
@@ -994,9 +275,17 @@ strong multicollinearity or other numerical problems.
 &lt;span class=&quot;c&quot;&gt;# generate a variable designating bins&lt;/span&gt;
 &lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'rain_bin'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;np&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;digitize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;precip&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;bins&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-&lt;span class=&quot;c&quot;&gt;#df = pd.concat([df, pd.get_dummies(df['rain_bin'])])&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;sns&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;distplot&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'rain_bin'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
 
-&lt;span class=&quot;c&quot;&gt;# run binned regression&lt;/span&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;matplotlib.axes._subplots.AxesSubplot at 0x7f9f7199ae90&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/Earth%20Engine%20Econometrics_files/Earth%20Engine%20Econometrics_19_1.png&quot; alt=&quot;png&quot; /&gt;&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# run binned regression&lt;/span&gt;
 &lt;span class=&quot;n&quot;&gt;bin_result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sm&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;formula&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;lossyear ~ -1 + C(rain_bin)  + C(year)&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
 
 &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;bin_result&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;summary&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
@@ -1050,6 +339,6 @@ Warnings:
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;</content><author><name></name></author><summary type="html">Google Earth Engine is not built to do econometrics, but it makes doing so with geographic data from a low-powered (and small hard-drived) computer practical.</summary></entry></feed>
+&lt;p&gt;Again, we see some evidence that extreme rain levels may be associated with deforestation. Recall that since these are differences from the &lt;em&gt;pixel&lt;/em&gt; average and we have year fixed effects, we may be identifying a causal effect. At the same time, our standard errors are incorrect, so the statistical significance of the above results is overstated. Rather than fix that now, we’ll work on a model with better data.&lt;/p&gt;
+
+&lt;p&gt;In the next edition of this study, I’ll use some better variables for measuring floods and droughts. Raw annual precipitation at a relatively low resolution seems to show some evidence of the effect we are looking for - better measures of floods and droughts from satellite images ought to do better.&lt;/p&gt;</content><author><name></name></author><summary type="html">Google Earth Engine is not built to do econometrics, but it makes doing so with geographic data from a low-powered (and small hard-drived) computer practical.</summary></entry></feed>
