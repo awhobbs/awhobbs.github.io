@@ -181,7 +181,7 @@
 </code></pre>
 </div>
 
-<p><img src="http://localhost:4000/img/loss.png" /></p>
+<p><img src="http://hobbservations.com/img/loss.png" /></p>
 
 <p>It is worth displaying the data to make sure it makes sense. Let’s write a quick helper function to look at data for a given year and then display a map of average total precipitation.</p>
 
@@ -195,7 +195,7 @@
 </code></pre>
 </div>
 
-<p><img src="http://localhost:4000/img/rain.png" /></p>
+<p><img src="http://hobbservations.com/img/rain.png" /></p>
 
 <p>It looks like we have the right data - the dry areas are where expected (the dark area in the lower left, for example) and the rainier areas are also as expected (the North, where there is greater rainfall).</p>
 
@@ -366,7 +366,7 @@
 </code></pre>
 </div>
 
-<p><img src="http://localhost:4000/img/Earth%20Engine%20Econometrics_files/Earth%20Engine%20Econometrics_17_1.png" alt="png" /></p>
+<p><img src="http://hobbservations.com/img/Earth%20Engine%20Econometrics_files/Earth%20Engine%20Econometrics_17_1.png" alt="png" /></p>
 
 <p>Now let’s generate some bins and see how they look:</p>
 
@@ -388,7 +388,7 @@
 </code></pre>
 </div>
 
-<p><img src="http://localhost:4000/img/Earth%20Engine%20Econometrics_files/Earth%20Engine%20Econometrics_19_1.png" alt="png" /></p>
+<p><img src="http://hobbservations.com/img/Earth%20Engine%20Econometrics_files/Earth%20Engine%20Econometrics_19_1.png" alt="png" /></p>
 
 <div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="c"># run binned regression</span>
 <span class="n">bin_result</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="n">formula</span><span class="o">=</span><span class="s">"lossyear ~ -1 + C(rain_bin)  + C(year)"</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
@@ -453,6 +453,15 @@ Warnings:
 <div class="related">
   <h2>Related Posts</h2>
   <ul class="related-posts">
+    
+      <li>
+        <h3>
+          <a href="/2017/10/09/Simulating-Daisies-with-D3/">
+            Simulating Daisies with D3
+            <small>09 Oct 2017</small>
+          </a>
+        </h3>
+      </li>
     
       <li>
         <h3>

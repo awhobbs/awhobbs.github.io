@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
  <title>Hobbservations</title>
- <link href="http://localhost:4000/atom.xml" rel="self"/>
- <link href="http://localhost:4000/"/>
- <updated>2017-10-07T13:06:36-07:00</updated>
- <id>http://localhost:4000</id>
+ <link href="http://hobbservations.com/atom.xml" rel="self"/>
+ <link href="http://hobbservations.com/"/>
+ <updated>2017-10-09T19:56:02-07:00</updated>
+ <id>http://hobbservations.com</id>
  <author>
    <name>Andrew Hobbs</name>
    <email>andrew@hobbservations.com</email>
@@ -13,10 +13,41 @@
 
  
  <entry>
+   <title>Simulating Daisies with D3</title>
+   <link href="http://hobbservations.com/2017/10/09/Simulating-Daisies-with-D3/"/>
+   <updated>2017-10-09T00:00:00-07:00</updated>
+   <id>http://hobbservations.com/2017/10/09/Simulating Daisies with D3</id>
+   <content type="html">&lt;p&gt;&lt;a href=&quot;https://en.wikipedia.org/wiki/Daisyworld&quot;&gt;Daisyworld&lt;/a&gt; is a simulation of a planet that is slowly getting hotter. It is
+inhabited by two species of daisies: dark daisies and light daisies. Dark daisies
+absorb solar radiation and thus keep their local area warm, meaning they can grow
+in cool temperatures and help the planet get warmer. Light daises reflect solar
+radiation and cool their local area, helping the planet cool off. Without any
+coordination, dark and light daisies can keep their planet at a habitable temperature,
+even with variable solar radiation.&lt;/p&gt;
+
+&lt;p&gt;Unfortunately, the daisies can still only inhabit their planet within a band of
+temperatures. The visualization below is a D3 adaptation of this model, which I built on the math from
+&lt;a href=&quot;http://www3.geosc.psu.edu/~dmb53/DaveSTELLA/Daisyworld/daisyworld_model.htm&quot;&gt;Portland State University&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Be patient, the planet is initially too cold for daisies to grow. When I get a chance
+I’ll add a temperature tracker, but if you want to watch the numbers change in the
+meantime open a browser console (⌘ + Option + J in Chrome on a Mac, Ctrl + Shift + J on Linux/Windows).&lt;/p&gt;
+
+&lt;p&gt;The planet will eventually get too hot and they’ll all die.&lt;/p&gt;
+
+&lt;div style=&quot;text-align:center;&quot;&gt;&lt;svg width=&quot;500&quot; height=&quot;500&quot;&gt;&lt;/svg&gt;&lt;/div&gt;
+&lt;script src=&quot;https://d3js.org/d3.v4.min.js&quot;&gt;&lt;/script&gt;
+
+&lt;script src=&quot;http://hobbservations.com/daisyworld/daisyworld.js&quot;&gt;&lt;/script&gt;
+
+</content>
+ </entry>
+ 
+ <entry>
    <title>Earth Engine Econometrics</title>
-   <link href="http://localhost:4000/2017/10/01/Earth-Engine-Econometrics/"/>
+   <link href="http://hobbservations.com/2017/10/01/Earth-Engine-Econometrics/"/>
    <updated>2017-10-01T00:00:00-07:00</updated>
-   <id>http://localhost:4000/2017/10/01/Earth-Engine-Econometrics</id>
+   <id>http://hobbservations.com/2017/10/01/Earth-Engine-Econometrics</id>
    <content type="html">&lt;p&gt;Google Earth Engine is not built to do econometrics, but it makes doing so with geographic data from a low-powered (and small hard-drived) computer practical.&lt;/p&gt;
 
 &lt;p&gt;The basic steps are:&lt;/p&gt;
@@ -94,7 +125,7 @@
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://localhost:4000/img/loss.png&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://hobbservations.com/img/loss.png&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;It is worth displaying the data to make sure it makes sense. Let’s write a quick helper function to look at data for a given year and then display a map of average total precipitation.&lt;/p&gt;
 
@@ -108,7 +139,7 @@
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://localhost:4000/img/rain.png&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://hobbservations.com/img/rain.png&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;It looks like we have the right data - the dry areas are where expected (the dark area in the lower left, for example) and the rainier areas are also as expected (the North, where there is greater rainfall).&lt;/p&gt;
 
@@ -279,7 +310,7 @@
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://localhost:4000/img/Earth%20Engine%20Econometrics_files/Earth%20Engine%20Econometrics_17_1.png&quot; alt=&quot;png&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://hobbservations.com/img/Earth%20Engine%20Econometrics_files/Earth%20Engine%20Econometrics_17_1.png&quot; alt=&quot;png&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Now let’s generate some bins and see how they look:&lt;/p&gt;
 
@@ -301,7 +332,7 @@
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
-&lt;p&gt;&lt;img src=&quot;http://localhost:4000/img/Earth%20Engine%20Econometrics_files/Earth%20Engine%20Econometrics_19_1.png&quot; alt=&quot;png&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://hobbservations.com/img/Earth%20Engine%20Econometrics_files/Earth%20Engine%20Econometrics_19_1.png&quot; alt=&quot;png&quot; /&gt;&lt;/p&gt;
 
 &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# run binned regression&lt;/span&gt;
 &lt;span class=&quot;n&quot;&gt;bin_result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sm&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;formula&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;lossyear ~ -1 + C(rain_bin)  + C(year)&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
@@ -365,9 +396,9 @@ Warnings:
  
  <entry>
    <title>Using Climate and Weather Data for Economic Analysis</title>
-   <link href="http://localhost:4000/2017/08/27/Using-Climate-and-Weather-Data-for-Economic-Analysis/"/>
+   <link href="http://hobbservations.com/2017/08/27/Using-Climate-and-Weather-Data-for-Economic-Analysis/"/>
    <updated>2017-08-27T00:00:00-07:00</updated>
-   <id>http://localhost:4000/2017/08/27/Using-Climate-and-Weather-Data-for-Economic-Analysis</id>
+   <id>http://hobbservations.com/2017/08/27/Using-Climate-and-Weather-Data-for-Economic-Analysis</id>
    <content type="html">&lt;p&gt;I prepared a &lt;a href=&quot;http://hobbservations.com/WeatherData&quot;&gt;slide deck&lt;/a&gt; for my Environmental Economics class based on a very useful &lt;a href=&quot;https://academic.oup.com/reep/article-abstract/7/2/181/1522753/Using-Weather-Data-and-Climate-Model-Output-in?redirectedFrom=fulltext&quot;&gt;paper by Auffhammer, Hsiang, Schlenker, and Sobel&lt;/a&gt;. I’m posting the slides here so they can be used as a quick reference for myself and others when it comes time to use these data.&lt;/p&gt;
 </content>
  </entry>

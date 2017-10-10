@@ -11,7 +11,7 @@
 
   <title>
     
-      Hobbservations &middot; Environment, Development, Data
+      Simulating Daisies with D3 &middot; Hobbservations
     
   </title>
 
@@ -101,18 +101,10 @@
       </div>
 
       <div class="container content">
-        <div class="posts">
-  
-  <div class="post">
-    <h1 class="post-title">
-      <a href="/2017/10/09/Simulating-Daisies-with-D3/">
-        Simulating Daisies with D3
-      </a>
-    </h1>
-
-    <span class="post-date">09 Oct 2017</span>
-
-    <p><a href="https://en.wikipedia.org/wiki/Daisyworld">Daisyworld</a> is a simulation of a planet that is slowly getting hotter. It is
+        <div class="post">
+  <h1 class="post-title">Simulating Daisies with D3</h1>
+  <span class="post-date">09 Oct 2017</span>
+  <p><a href="https://en.wikipedia.org/wiki/Daisyworld">Daisyworld</a> is a simulation of a planet that is slowly getting hotter. It is
 inhabited by two species of daisies: dark daisies and light daisies. Dark daisies
 absorb solar radiation and thus keep their local area warm, meaning they can grow
 in cool temperatures and help the planet get warmer. Light daises reflect solar
@@ -120,45 +112,47 @@ radiation and cool their local area, helping the planet cool off. Without any
 coordination, dark and light daisies can keep their planet at a habitable temperature,
 even with variable solar radiation.</p>
 
+<p>Unfortunately, the daisies can still only inhabit their planet within a band of
+temperatures. The visualization below is a D3 adaptation of this model, which I built on the math from
+<a href="http://www3.geosc.psu.edu/~dmb53/DaveSTELLA/Daisyworld/daisyworld_model.htm">Portland State University</a>.</p>
 
-  </div>
-  
-  <div class="post">
-    <h1 class="post-title">
-      <a href="/2017/10/01/Earth-Engine-Econometrics/">
-        Earth Engine Econometrics
-      </a>
-    </h1>
+<p>Be patient, the planet is initially too cold for daisies to grow. When I get a chance
+I’ll add a temperature tracker, but if you want to watch the numbers change in the
+meantime open a browser console (⌘ + Option + J in Chrome on a Mac, Ctrl + Shift + J on Linux/Windows).</p>
 
-    <span class="post-date">01 Oct 2017</span>
+<p>The planet will eventually get too hot and they’ll all die.</p>
 
-    <p>Google Earth Engine is not built to do econometrics, but it makes doing so with geographic data from a low-powered (and small hard-drived) computer practical.</p>
+<div style="text-align:center;"><svg width="500" height="500"></svg></div>
+<script src="https://d3js.org/d3.v4.min.js"></script>
+
+<script src="http://hobbservations.com/daisyworld/daisyworld.js"></script>
 
 
-  </div>
-  
-  <div class="post">
-    <h1 class="post-title">
-      <a href="/2017/08/27/Using-Climate-and-Weather-Data-for-Economic-Analysis/">
-        Using Climate and Weather Data for Economic Analysis
-      </a>
-    </h1>
-
-    <span class="post-date">27 Aug 2017</span>
-
-    <p>I prepared a <a href="http://hobbservations.com/WeatherData">slide deck</a> for my Environmental Economics class based on a very useful <a href="https://academic.oup.com/reep/article-abstract/7/2/181/1522753/Using-Weather-Data-and-Climate-Model-Output-in?redirectedFrom=fulltext">paper by Auffhammer, Hsiang, Schlenker, and Sobel</a>. I’m posting the slides here so they can be used as a quick reference for myself and others when it comes time to use these data.</p>
-
-  </div>
-  
 </div>
 
-<div class="pagination">
-  
-    <span class="pagination-item older">Older</span>
-  
-  
-    <span class="pagination-item newer">Newer</span>
-  
+<div class="related">
+  <h2>Related Posts</h2>
+  <ul class="related-posts">
+    
+      <li>
+        <h3>
+          <a href="/2017/10/01/Earth-Engine-Econometrics/">
+            Earth Engine Econometrics
+            <small>01 Oct 2017</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2017/08/27/Using-Climate-and-Weather-Data-for-Economic-Analysis/">
+            Using Climate and Weather Data for Economic Analysis
+            <small>27 Aug 2017</small>
+          </a>
+        </h3>
+      </li>
+    
+  </ul>
 </div>
 
       </div>
