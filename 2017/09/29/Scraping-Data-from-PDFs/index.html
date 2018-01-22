@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+  <head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      Scraping Data from Many Big PDFs &middot; Hobbservations
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/public/css/poole.css">
+  <link rel="stylesheet" href="/public/css/syntax.css">
+  <link rel="stylesheet" href="/public/css/lanyon.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700%7CPT+Sans:400">
+
+  <!-- Icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/apple-touch-icon-precomposed.png">
+  <link rel="shortcut icon" href="/public/favicon.ico">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+
+  <!-- Global Site Tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-107899414-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-107899414-1');
+  </script>
+</head>
+
+
+  <body>
+
+    <!-- Target for toggling the sidebar `.sidebar-checkbox` is for regular
+     styles, `#sidebar-checkbox` for behavior. -->
+<input type="checkbox" class="sidebar-checkbox" id="sidebar-checkbox">
+
+<!-- Toggleable sidebar -->
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-item">
+    <p></p>
+  </div>
+
+  <nav class="sidebar-nav">
+    <a class="sidebar-nav-item" href="/">Home</a>
+
+    
+
+    
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+          <a class="sidebar-nav-item" href="/about/">About</a>
+        
+      
+    
+      
+    
+      
+        
+          <a class="sidebar-nav-item" href="/hobbs-andrew-cv.pdf">CV</a>
+        
+      
+    
+      
+        
+          <a class="sidebar-nav-item" href="/projects/">Projects and Publications</a>
+        
+      
+    
+
+  </nav>
+
+  <div class="sidebar-item">
+    <p><small>
+    <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+  </small></p>
+    <p><small>
+     <p>Built with <a href="https://jekyllrb.com/">Jekyll</a> using the <a href="http://lanyon.getpoole.com/">Lanyon</a> theme.</p>
+   </small></p>
+  </div>
+</div>
+
+
+    <!-- Wrap is the content to shift when toggling the sidebar. We wrap the
+         content to avoid any CSS collisions with our real content. -->
+    <div class="wrap">
+      <div class="masthead">
+        <div class="container">
+          <h3 class="masthead-title">
+            <a href="/" title="Home">Hobbservations</a>
+            <small>Climate Change, Development, Data</small>
+          </h3>
+        </div>
+      </div>
+
+      <div class="container content">
+        <div class="post">
+  <h1 class="post-title">Scraping Data from Many Big PDFs</h1>
+  <span class="post-date">29 Sep 2017</span>
+  <p>The <a href="http://calcarbondash.org/">California Carbon Dashboard</a>’s data comes from PDFs downloaded from Intercontinental Exchange (ICE). Unfortunately, these PDFs are daily and are more than 2000 pages long. In order to get the data out of them in a reasonable amount of time, we needed to figure out a way of quickly identifying the right pages and pulling tables from them. I figured I’d document this here, as I think it might be useful to someone else’s research.</p>
+
+<p>The basic steps are:</p>
+<ol>
+  <li>Start with a good guess for where the useful data is. I found it in the first PDF, and then the script saves updates a record of where it found the first page each day. The page changes over time, but rarely moves far in a single day, so this saves a lot of time searching.</li>
+  <li>If the script doesn’t find a relevant page where yesterday’s began, it jumps forward 3 pages, back 6, then forward 9, etc. Since the data we are looking for is always about 5 pages long, we will never fail to find it this way. Further, by jumping a bit further, we again save a lot of time.</li>
+  <li>Since all the pages we want are always sequential, and are also the only pages with ‘California’ in the title, we start moving forward from the first useful page we find. Once we reach the last useful page, we move backward from the first useful one we found. This ensures we get the whole series in the minimum amount of time.</li>
+  <li>We then record the page where the data started to start tomorrow’s search.</li>
+</ol>
+
+<p>This simple-yet-pretty-hacky algorithm dramatically reduced the time it takes to extract the data. The <code class="highlighter-rouge">tabula-py</code> pulls tables from PDFS beautifully, but due to general messiness of PDFS we had to write a few more lines of code to clean it up. In the end, we replaced our old 800+ line scraper script with one that is only a few dozen lines and dramatically faster. The code is below - I hope that this can saves others some time when trying to pull tables from PDFs, especially large ones.</p>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">tabula</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">pickle</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+
+<span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s">'./log/parser.log'</span><span class="p">,</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">get_data</span><span class="p">(</span><span class="nb">file</span><span class="p">,</span> <span class="n">page</span><span class="p">):</span>
+    <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">"Starting "</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">file</span><span class="p">)</span> <span class="o">+</span>  <span class="s">" on page "</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">page</span><span class="p">))</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+    <span class="n">start_page</span> <span class="o">=</span> <span class="n">page</span>
+    <span class="n">price_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+    <span class="n">found_data</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="n">last_page_was_useful</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="n">timeout</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="n">jump</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">jump_sign</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="c"># a ridiculously large number</span>
+    <span class="n">last_page</span> <span class="o">=</span> <span class="mf">10e1000</span>
+    <span class="n">direction</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">useless_pages</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+    <span class="n">harvested_pages</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">useful</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="nb">str</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="s">'California'</span><span class="p">))</span>
+        <span class="k">except</span> <span class="nb">Exception</span><span class="p">:</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">"Page "</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">page</span><span class="p">)</span> <span class="o">+</span> <span class="s">" seems to be blank."</span><span class="p">)</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="k">return</span> <span class="n">result</span>
+
+    <span class="k">while</span> <span class="ow">not</span> <span class="n">timeout</span> <span class="ow">and</span> <span class="p">(</span><span class="n">last_page_was_useful</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">found_data</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="n">tabula</span><span class="o">.</span><span class="n">read_pdf</span><span class="p">(</span><span class="nb">file</span><span class="p">,</span> <span class="n">pages</span> <span class="o">=</span> <span class="n">page</span><span class="p">,</span> <span class="n">silent</span> <span class="o">=</span> <span class="bp">True</span><span class="p">)</span>
+        <span class="k">except</span> <span class="nb">Exception</span><span class="p">:</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">"ERROR! "</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">page</span><span class="p">)</span> <span class="o">+</span> <span class="s">" returned an empty dataframe"</span><span class="p">)</span>
+
+        <span class="c"># Check if the page contains the word "California" in the first column</span>
+        <span class="c"># (which is how it interprets the big gray bar)</span>
+        <span class="k">if</span> <span class="n">useful</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+            <span class="n">last_page_was_useful</span> <span class="o">=</span> <span class="bp">True</span>
+
+            <span class="c"># This stuff happens on the first useful page we find</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">found_data</span><span class="p">:</span>
+                <span class="c"># record that we found the data!</span>
+                <span class="n">found_data</span> <span class="o">=</span> <span class="bp">True</span>
+                <span class="c"># check if this is the earliest useful page</span>
+                <span class="c"># if it was, go backward</span>
+                <span class="k">if</span> <span class="n">page</span> <span class="o">&lt;</span> <span class="n">last_page</span><span class="p">:</span>
+                    <span class="n">direction</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+            <span class="c"># add this page to the list of pages we've harvested</span>
+            <span class="n">harvested_pages</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">page</span><span class="p">)</span>
+            <span class="c"># on every useful page, add the data to the set</span>
+            <span class="n">price_data</span> <span class="o">=</span> <span class="n">price_data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+            <span class="c"># record the page in the data because why not</span>
+            <span class="n">price_data</span><span class="p">[</span><span class="s">'page'</span><span class="p">]</span> <span class="o">=</span> <span class="n">page</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">"Extracted useful data from page "</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">page</span><span class="p">))</span>
+            <span class="c"># increment or decrement depending on how we found the page</span>
+            <span class="n">page</span> <span class="o">+=</span> <span class="mi">1</span> <span class="o">*</span> <span class="n">direction</span>
+        <span class="c"># This happens if the page was not useful</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">useless_pages</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">page</span><span class="p">)</span>
+            <span class="c">#This stuff happens if we haven't found the data yet</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">found_data</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">jump</span> <span class="o">&lt;</span> <span class="mi">1000</span><span class="p">:</span>
+                    <span class="n">page</span> <span class="o">=</span> <span class="n">page</span> <span class="o">+</span> <span class="n">jump</span>
+                    <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">"Nothing to see here, jumping to page"</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">page</span><span class="p">))</span>
+                    <span class="n">jump_size</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">jump</span><span class="p">)</span> <span class="o">+</span> <span class="mi">3</span>
+                    <span class="n">jump_sign</span> <span class="o">*=</span> <span class="o">-</span><span class="mi">1</span>
+                    <span class="n">jump</span> <span class="o">=</span> <span class="n">jump_sign</span> <span class="o">*</span> <span class="n">jump_size</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s">"Can't find data! Try a new start page?"</span><span class="p">)</span>
+                    <span class="n">timeout</span> <span class="o">=</span> <span class="bp">True</span>
+	        <span class="c"># If we've found the data, but this page is not useful</span>
+            <span class="c"># we need to go back to wherever we started in the data</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c"># Check that pages right before and after</span>
+                <span class="c"># harvested pages are useless_pages</span>
+                <span class="k">if</span> <span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">harvested_pages</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="ow">in</span> <span class="n">useless_pages</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">harvested_pages</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="ow">in</span> <span class="n">useless_pages</span><span class="p">:</span>
+                        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">"No useful data on page "</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">page</span><span class="p">)</span> <span class="o">+</span>
+                                     <span class="s">", that's it!"</span><span class="p">)</span>
+                        <span class="n">last_page_was_useful</span> <span class="o">=</span> <span class="bp">False</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">"Checking the end..."</span><span class="p">)</span>
+                        <span class="n">page</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">harvested_pages</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+                        <span class="n">direction</span> <span class="o">=</span> <span class="mi">1</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">"Checking the beginning..."</span><span class="p">)</span>
+                    <span class="n">page</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">harvested_pages</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+                    <span class="n">direction</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="n">last_page</span> <span class="o">=</span> <span class="n">page</span>
+
+    <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">"Done parsing "</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">file</span><span class="p">))</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">start_page</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">harvested_pages</span><span class="p">)</span>
+    <span class="k">except</span> <span class="nb">Exception</span><span class="p">:</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">"No pages harvested"</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="p">{</span><span class="s">'data'</span><span class="p">:</span> <span class="n">price_data</span><span class="p">,</span> <span class="s">'start_page'</span><span class="p">:</span> <span class="n">start_page</span><span class="p">,</span> <span class="s">'filename'</span><span class="p">:</span> <span class="nb">file</span><span class="p">}</span>
+
+<span class="n">target_folder</span> <span class="o">=</span> <span class="s">'./pdf'</span>
+<span class="n">archive_folder</span> <span class="o">=</span> <span class="s">'./archive'</span>
+
+<span class="n">files</span> <span class="o">=</span> <span class="p">[</span><span class="n">f</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">target_folder</span><span class="p">)</span> \
+                    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">target_folder</span><span class="p">,</span> <span class="n">f</span><span class="p">))</span> \
+                    <span class="ow">and</span> <span class="ow">not</span> <span class="n">f</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">'.'</span><span class="p">)]</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">'./log/start_page.pickle'</span><span class="p">,</span> <span class="s">'rb'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">start_page</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+<span class="k">except</span><span class="p">:</span>
+    <span class="n">start_page</span> <span class="o">=</span> <span class="mi">2159</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="nb">file</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">files</span><span class="p">):</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">get_data</span><span class="p">(</span><span class="n">target_folder</span> <span class="o">+</span> <span class="s">"/"</span> <span class="o">+</span> <span class="nb">file</span><span class="p">,</span> <span class="n">start_page</span><span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="s">'data'</span><span class="p">]</span>
+    <span class="c"># start the next day on the starting page from today!</span>
+    <span class="n">start_page</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="s">'start_page'</span><span class="p">]</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">'./log/start_page.pickle'</span><span class="p">,</span> <span class="s">'wb'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">start_page</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
+    <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+    <span class="c"># save the thing in a pickle in case something happens</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">'./data/datapickle.pickle'</span><span class="p">,</span> <span class="s">'wb'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
+    <span class="c"># Move the file to the archive</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">target_folder</span> <span class="o">+</span> <span class="s">"/"</span> <span class="o">+</span> <span class="nb">file</span><span class="p">,</span> <span class="n">archive_folder</span> <span class="o">+</span> <span class="s">"/"</span> <span class="o">+</span> <span class="nb">file</span><span class="p">)</span>
+</code></pre>
+</div>
+
+</div>
+
+<div class="related">
+  <h2>Related Posts</h2>
+  <ul class="related-posts">
+    
+      <li>
+        <h3>
+          <a href="/2017/12/09/Time-for-Cows-Learning-Preferences-from-Games/">
+            Time for Cows: Learning from Games
+            <small>09 Dec 2017</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2017/10/09/Simulating-Daisies-with-D3/">
+            Simulating Daisies with D3
+            <small>09 Oct 2017</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2017/10/01/Earth-Engine-Econometrics/">
+            Earth Engine Econometrics
+            <small>01 Oct 2017</small>
+          </a>
+        </h3>
+      </li>
+    
+  </ul>
+</div>
+
+      </div>
+    </div>
+
+    <label for="sidebar-checkbox" class="sidebar-toggle"></label>
+
+    <script>
+      (function(document) {
+        var toggle = document.querySelector('.sidebar-toggle');
+        var sidebar = document.querySelector('#sidebar');
+        var checkbox = document.querySelector('#sidebar-checkbox');
+
+        document.addEventListener('click', function(e) {
+          var target = e.target;
+
+          if(!checkbox.checked ||
+             sidebar.contains(target) ||
+             (target === checkbox || target === toggle)) return;
+
+          checkbox.checked = false;
+        }, false);
+      })(document);
+    </script>
+  </body>
+</html>

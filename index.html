@@ -11,7 +11,7 @@
 
   <title>
     
-      Hobbservations &middot; 
+      Hobbservations &middot; Climate Change, Development, Data
     
   </title>
 
@@ -77,13 +77,13 @@
     
       
         
-          <a class="sidebar-nav-item" href="/cv/">CV</a>
+          <a class="sidebar-nav-item" href="/hobbs-andrew-cv.pdf">CV</a>
         
       
     
       
         
-          <a class="sidebar-nav-item" href="/projects/">Projects</a>
+          <a class="sidebar-nav-item" href="/projects/">Projects and Publications</a>
         
       
     
@@ -91,9 +91,12 @@
   </nav>
 
   <div class="sidebar-item">
-    <p>
-      &copy; 2017. All rights reserved.
-    </p>
+    <p><small>
+    <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+  </small></p>
+    <p><small>
+     <p>Built with <a href="https://jekyllrb.com/">Jekyll</a> using the <a href="http://lanyon.getpoole.com/">Lanyon</a> theme.</p>
+   </small></p>
   </div>
 </div>
 
@@ -105,13 +108,27 @@
         <div class="container">
           <h3 class="masthead-title">
             <a href="/" title="Home">Hobbservations</a>
-            <small></small>
+            <small>Climate Change, Development, Data</small>
           </h3>
         </div>
       </div>
 
       <div class="container content">
         <div class="posts">
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2017/12/09/Time-for-Cows-Learning-Preferences-from-Games/">
+        Time for Cows: Learning from Games
+      </a>
+    </h1>
+
+    <span class="post-date">09 Dec 2017</span>
+
+    <p>I designed a <a href="apps.hobbservations.com">game</a> about cows, droughts, and insurance to play with pastoralists in Kenya. The current version is far from user-friendly, but might be interesting to people engaged in this sort of research. We’ll be using the data to put together a model of their decision-making under risk that we hope will be accurate enough to help us design insurance products that better meet their needs.</p>
+
+
+  </div>
   
   <div class="post">
     <h1 class="post-title">
@@ -122,11 +139,11 @@
 
     <span class="post-date">09 Oct 2017</span>
 
-    <p><a href="https://en.wikipedia.org/wiki/Daisyworld">Daisyworld</a> is a simulation of a planet that is slowly getting hotter. It is
+    <p><a href="https://en.wikipedia.org/wiki/Daisyworld">Daisyworld</a> is a simulation of a planet that is slowly getting hotter, and I thought it seemed like a fun way to experiment with D3.js. It is
 inhabited by two species of daisies: dark daisies and light daisies. Dark daisies
-absorb solar radiation and thus keep their local area warm, meaning they can grow
+absorb solar radiation, meaning they can grow
 in cool temperatures and help the planet get warmer. Light daises reflect solar
-radiation and cool their local area, helping the planet cool off. Without any
+radiation and help the planet cool off. Without any
 coordination, dark and light daisies can keep their planet at a habitable temperature,
 even with variable solar radiation.</p>
 
@@ -142,14 +159,28 @@ even with variable solar radiation.</p>
 
     <span class="post-date">01 Oct 2017</span>
 
-    <p>Google Earth Engine is not built to do econometrics, but it makes doing so with geographic data from a low-powered (and small hard-drived) computer practical.</p>
+    <p>Google Earth Engine is not built to do econometrics, but it makes doing so with geographic data from a low-powered (and small hard-drived) computer practical. This post details one method to leverage the Earth Engine platform for panel regression, which makes it possible to obtain a plausibly causal estimate of the effects of weather fluctuations.</p>
 
 
   </div>
   
   <div class="post">
     <h1 class="post-title">
-      <a href="/2017/08/27/Using-Climate-and-Weather-Data-for-Economic-Analysis/">
+      <a href="/2017/09/29/Scraping-Data-from-PDFs/">
+        Scraping Data from Many Big PDFs
+      </a>
+    </h1>
+
+    <span class="post-date">29 Sep 2017</span>
+
+    <p>The <a href="http://calcarbondash.org/">California Carbon Dashboard</a>’s data comes from PDFs downloaded from Intercontinental Exchange (ICE). Unfortunately, these PDFs are daily and are more than 2000 pages long. In order to get the data out of them in a reasonable amount of time, we needed to figure out a way of quickly identifying the right pages and pulling tables from them. I figured I’d document this here, as I think it might be useful to someone else’s research.</p>
+
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2017/08/27/Using-Climate-and-Weather-Data-for-Economic-Analysis0/">
         Using Climate and Weather Data for Economic Analysis
       </a>
     </h1>
