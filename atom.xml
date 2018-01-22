@@ -4,7 +4,7 @@
  <title>Hobbservations</title>
  <link href="http://hobbservations.com/atom.xml" rel="self"/>
  <link href="http://hobbservations.com/"/>
- <updated>2018-01-22T09:13:12+03:00</updated>
+ <updated>2018-01-22T09:16:09+03:00</updated>
  <id>http://hobbservations.com</id>
  <author>
    <name>Andrew Hobbs</name>
@@ -17,7 +17,7 @@
    <link href="http://hobbservations.com/2017/12/09/Time-for-Cows-Learning-Preferences-from-Games/"/>
    <updated>2017-12-09T00:00:00+03:00</updated>
    <id>http://hobbservations.com/2017/12/09/Time-for-Cows:-Learning-Preferences-from-Games</id>
-   <content type="html">&lt;p&gt;I designed a &lt;a href=&quot;apps.hobbservations.com&quot;&gt;game&lt;/a&gt; about cows, droughts, and insurance to play with pastoralists in Kenya. The current version is far from user-friendly, but might be interesting to people engaged in this sort of research. We’ll be using the data to put together a model of their decision-making under risk that we hope will be accurate enough to help us design insurance products that better meet their needs.&lt;/p&gt;
+   <content type="html">&lt;p&gt;I designed a &lt;a href=&quot;http://apps.hobbservations.com&quot;&gt;game&lt;/a&gt; about cows, droughts, and insurance to play with pastoralists in Kenya. The current version is far from user-friendly, but might be interesting to people engaged in this sort of research. We’ll be using the data to put together a model of their decision-making under risk that we hope will be accurate enough to help us design insurance products that better meet their needs.&lt;/p&gt;
 
 &lt;h1 id=&quot;background-whats-index-insurance&quot;&gt;Background: what’s index insurance?&lt;/h1&gt;
 
