@@ -108,7 +108,7 @@
         <div class="container">
           <h3 class="masthead-title">
             <a href="/" title="Home">Hobbservations</a>
-            <small>Climate Change, Development, Data</small>
+            <small></small>
           </h3>
         </div>
       </div>
@@ -131,7 +131,7 @@
 
 <p>The first step is to import the data desired. I am interested in the relationship between weather shocks and forest change. For forest change, I plan to use data from <a href="http://science.sciencemag.org/content/342/6160/850">Hansen et al. (2013)</a>. For weather shocks, I will start by using rainfall data, though down the road I’ll need to do something more sophisticated.</p>
 
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="c"># Import and initialize the Earth Engine Python API</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Import and initialize the Earth Engine Python API</span>
 <span class="kn">import</span> <span class="nn">ee</span>
 <span class="n">ee</span><span class="o">.</span><span class="n">Initialize</span><span class="p">()</span>
 
@@ -152,10 +152,9 @@
 
 <span class="c"># Get PERSIANN rainfall data, clip to Mozambique</span>
 <span class="n">persiann</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">ImageCollection</span><span class="p">(</span><span class="s">'NOAA/PERSIANN-CDR'</span><span class="p">)</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s">'precipitation'</span><span class="p">)</span><span class="o">.</span><span class="n">filterBounds</span><span class="p">(</span><span class="n">moz</span><span class="p">)</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="c"># Convert to a collection of annual images</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Convert to a collection of annual images</span>
 <span class="c"># The Hansen data starts out as a single image, so we need to split it up</span>
 <span class="c"># The precipitation data needs to be added up</span>
 
@@ -191,22 +190,20 @@
       <span class="s">'bands'</span><span class="p">:</span> <span class="s">'lossyear'</span><span class="p">,</span>
       <span class="s">'min'</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
       <span class="s">'max'</span><span class="p">:</span> <span class="mi">3</span><span class="p">}))</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p><img src="http://hobbservations.com/img/loss.png" /></p>
 
 <p>It is worth displaying the data to make sure it makes sense. Let’s write a quick helper function to look at data for a given year and then display a map of average total precipitation.</p>
 
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="n">average_image</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">average_image</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
 
 <span class="n">Image</span><span class="p">(</span><span class="n">url</span> <span class="o">=</span> <span class="n">average_image</span><span class="o">.</span><span class="n">getThumbUrl</span><span class="p">({</span>
       <span class="s">'region'</span><span class="p">:</span> <span class="n">moz</span><span class="o">.</span><span class="n">geometry</span><span class="p">()</span><span class="o">.</span><span class="n">bounds</span><span class="p">()</span><span class="o">.</span><span class="n">getInfo</span><span class="p">(),</span>
       <span class="s">'bands'</span><span class="p">:</span> <span class="s">'precipitation_sum'</span><span class="p">,</span>
       <span class="s">'min'</span><span class="p">:</span>  <span class="mi">0</span><span class="p">,</span>
       <span class="s">'max'</span><span class="p">:</span> <span class="mi">2500</span><span class="p">}))</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p><img src="http://hobbservations.com/img/rain.png" /></p>
 
@@ -214,7 +211,7 @@
 
 <p>Now we can try using Earth Engine’s regression function. When we apply it across all of Mozambique, we get</p>
 
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="c"># Run the regression for all of Mozambique</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Run the regression for all of Mozambique</span>
 <span class="n">mean_data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">select</span><span class="p">([</span><span class="s">'year'</span><span class="p">,</span> <span class="s">'precipitation_sum'</span><span class="p">,</span> <span class="s">'lossyear'</span><span class="p">])</span>
 <span class="k">print</span> <span class="n">mean_data</span><span class="o">.</span><span class="n">bandNames</span><span class="p">()</span><span class="o">.</span><span class="n">getInfo</span><span class="p">()</span>
 
@@ -229,13 +226,11 @@
 <span class="p">))</span>
 
 <span class="k">print</span><span class="p">(</span><span class="n">linear_fit</span><span class="o">.</span><span class="n">getInfo</span><span class="p">())</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>[u'year', u'precipitation_sum', u'lossyear']
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[u'year', u'precipitation_sum', u'lossyear']
 {u'residuals': [0.012013937790101835], u'coefficients': [[-4.539741010669634e-07], [3.2480903671127144e-06]]}
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>This gives us an ‘average’ result for the entire dataset. However, this function does not return standard errors, and does not allow us to conduct a panel regression. In order to do that, the easiest way forward is to download a sample of the data and analyze it locally using <code class="highlighter-rouge">pandas</code> and <code class="highlighter-rouge">statsmodels</code>. I conducted this analysis on a remote <a href="https://www.digitalocean.com/">Digital Ocean</a> server, but it could also be done on a local machine (or using Google Compute Engine, AWS, or some other server).</p>
 
@@ -243,7 +238,7 @@
 
 <p>The code below includes functions to de-mean the data, randomly sample pixels from it, and convert a feature collection to a geopandas dataframe.</p>
 
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">geopandas</span> <span class="kn">import</span> <span class="n">GeoDataFrame</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">geopandas</span> <span class="kn">import</span> <span class="n">GeoDataFrame</span>
 <span class="kn">from</span> <span class="nn">shapely.geometry</span> <span class="kn">import</span> <span class="n">shape</span>
 
 <span class="n">mean_data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
@@ -281,17 +276,15 @@
 
 <span class="c"># demean all the data</span>
 <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="nb">map</span><span class="p">(</span><span class="n">demean</span><span class="p">)</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">pickle</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">pickle</span>
 
 <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">'df_list.pickle'</span><span class="p">,</span> <span class="s">'wb'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
     <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">df_list</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="c">#this downloads data, and waits for google when it needs to</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#this downloads data, and waits for google when it needs to</span>
 <span class="kn">import</span> <span class="nn">time</span>
 
 <span class="n">df_list</span> <span class="o">=</span> <span class="p">[]</span>
@@ -315,21 +308,19 @@
         <span class="n">sampler</span><span class="p">()</span>  
 
 <span class="n">sampler</span><span class="p">()</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Now we can save the results by pickling them.</p>
 
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">pickle</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">pickle</span>
 
 <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">'df_list_backup.pickle'</span><span class="p">,</span> <span class="s">'wb'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
     <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">df_list</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">statsmodels.formula.api</span> <span class="kn">as</span> <span class="nn">sm</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="nn">statsmodels.formula.api</span> <span class="k">as</span> <span class="n">sm</span>
 
 
 <span class="c"># Import from pickle so we can simply start from this code block</span>
@@ -359,31 +350,28 @@
 <span class="n">result</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="n">formula</span><span class="o">=</span><span class="s">"lossyear ~ -1 + precip  + precip2  + C(year)"</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
 
 <span class="k">print</span> <span class="n">result</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>In the above we some some evidence that very high levels of precipitation are associated with increased forest loss. Of course, this is still a very crude regression. Instead of using a quadratic, we might also try bins. To explore that idea, let’s look at a histogram.</p>
 
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
 
 <span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">stats</span><span class="p">,</span> <span class="n">integrate</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">seaborn</span> <span class="kn">as</span> <span class="nn">sns</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="n">sns</span>
 <span class="n">sns</span><span class="o">.</span><span class="nb">set</span><span class="p">(</span><span class="n">color_codes</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 
 <span class="n">sns</span><span class="o">.</span><span class="n">distplot</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s">'precip'</span><span class="p">])</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x7f9f71c23910&gt;
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x7f9f71c23910&gt;
+</code></pre></div></div>
 
 <p><img src="http://hobbservations.com/img/Earth%20Engine%20Econometrics_files/Earth%20Engine%20Econometrics_17_1.png" alt="png" /></p>
 
 <p>Now let’s generate some bins and see how they look:</p>
 
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="n">precip_sd</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s">'precip'</span><span class="p">]))</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">precip_sd</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s">'precip'</span><span class="p">]))</span>
 <span class="n">precip_min</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="nb">min</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s">'precip'</span><span class="p">])</span>
 <span class="n">precip_max</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="nb">max</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s">'precip'</span><span class="p">])</span>
 
@@ -394,23 +382,20 @@
 <span class="n">df</span><span class="p">[</span><span class="s">'rain_bin'</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">digitize</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">precip</span><span class="p">,</span> <span class="n">bins</span><span class="p">)</span>
 
 <span class="n">sns</span><span class="o">.</span><span class="n">distplot</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s">'rain_bin'</span><span class="p">])</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x7f9f7199ae90&gt;
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x7f9f7199ae90&gt;
+</code></pre></div></div>
 
 <p><img src="http://hobbservations.com/img/Earth%20Engine%20Econometrics_files/Earth%20Engine%20Econometrics_19_1.png" alt="png" /></p>
 
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="c"># run binned regression</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># run binned regression</span>
 <span class="n">bin_result</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="n">formula</span><span class="o">=</span><span class="s">"lossyear ~ -1 + C(rain_bin)  + C(year)"</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
 
 <span class="k">print</span> <span class="n">bin_result</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>                            OLS Regression Results                            
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>                            OLS Regression Results                            
 ==============================================================================
 Dep. Variable:               lossyear   R-squared:                       0.000
 Model:                            OLS   Adj. R-squared:                  0.000
@@ -454,8 +439,7 @@ Kurtosis:                     444.293   Cond. No.                         80.4
 
 Warnings:
 [1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Again, we see some evidence that extreme rain levels may be associated with deforestation. Recall that since these are differences from the <em>pixel</em> average and we have year fixed effects, we may be identifying a causal effect. At the same time, our standard errors are incorrect, so the statistical significance of the above results is overstated. Rather than fix that now, we’ll work on a model with better data.</p>
 
