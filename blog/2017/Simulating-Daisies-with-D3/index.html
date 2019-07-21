@@ -6,13 +6,13 @@
   <meta name="viewport" content="width=device-width initial-scale=1" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-  <title>Andrew Hobbs</title>
+  <title>Andrew Hobbs | Simulating Daisies with D3</title>
   <meta name="description" content="A beautiful Jekyll theme for academics">
 
   <link rel="shortcut icon" href="http://localhost:4000//assets/img/favicon.ico">
 
   <link rel="stylesheet" href="http://localhost:4000//assets/css/main.css">
-  <link rel="canonical" href="http://localhost:4000//">
+  <link rel="canonical" href="http://localhost:4000//blog/2017/Simulating-Daisies-with-D3/">
 </head>
 
 
@@ -22,6 +22,11 @@
 
   <div class="wrapper">
 
+    
+    <span class="site-title">
+        
+        <strong>Andrew</strong> Hobbs
+    </span>
     
 
     <nav class="site-nav">
@@ -81,54 +86,36 @@
         <div class="post">
 
   <header class="post-header">
-    <h1 class="post-title"><strong>Andrew</strong> Hobbs</h1>
-    <h5 class="post-description">PhD Candidate, UC Davis</h5>
+    <h1 class="post-title">Simulating Daisies with D3</h1>
+    <p class="post-meta">October 9, 2017</p>
   </header>
 
-  <article class="post-content <strong>Andrew</strong> Hobbs clearfix">
-    
-  <div class="profile col one right">
-    
-      <img class="one" src="http://localhost:4000//assets/img/headshot.jpg">
-    
-    
-      <div class="address">
-        
-      </div>
-    
-  </div>
+  <article class="post-content">
+    <p><a href="https://en.wikipedia.org/wiki/Daisyworld">Daisyworld</a> is a simulation of a planet that is slowly getting hotter, and I thought it seemed like a fun way to experiment with D3.js. It is
+inhabited by two species of daisies: dark daisies and light daisies. Dark daisies
+absorb solar radiation, meaning they can grow
+in cool temperatures and help the planet get warmer. Light daises reflect solar
+radiation and help the planet cool off. Without any
+coordination, dark and light daisies can keep their planet at a habitable temperature,
+even with variable solar radiation.</p>
 
+<p>Unfortunately, the daisies can still only inhabit their planet within a band of
+temperatures. The visualization below is a D3 adaptation of this model, which I built on the math from
+<a href="http://www3.geosc.psu.edu/~dmb53/DaveSTELLA/Daisyworld/daisyworld_model.htm">Portland State University</a>.</p>
 
-<p>I am a development and environmental economist studying how people cope with droughts, floods, and other environmental shocks. I am particularly interested in how household
-power structures lead the costs of those shocks to be unevenly distributed.</p>
+<p>Be patient, the planet is initially too cold for daisies to grow. When I get a chance
+maybe I’ll add a temperature tracker, but if you want to watch the numbers change in the
+meantime open a browser console (⌘ + Option + J in Chrome on a Mac, Ctrl + Shift + J on Linux/Windows).</p>
 
-<p>Before starting my PhD, I lived and worked for several years in Mozambique studying climate smart agriculture. Prior to that, I worked on renewable energy and energy efficiency policy in the U.S., Germany, and China.</p>
+<p>The planet will eventually get too hot and they’ll all die.</p>
 
-<p><a href="http://localhost:4000/andrew-hobbs-cv.pdf">Download my CV.</a></p>
+<div style="text-align:center;"><svg width="500" height="500"></svg></div>
+<script src="https://d3js.org/d3.v4.min.js"></script>
+
+<script src="http://hobbservations.com/daisyworld/daisyworld.js"></script>
 
 
   </article>
-
-  
-
-  
-    <div class="social">
-  <span class="contacticon center">
-    <a href="mailto:%61%6E%64%72%65%77@%68%6F%62%62%73%65%72%76%61%74%69%6F%6E%73.%63%6F%6D"><i class="fas fa-envelope"></i></a>
-    
-    <a href="https://scholar.google.com/citations?user=kGBifbYAAAAJ" target="_blank" title="Google Scholar"><i class="ai ai-google-scholar"></i></a>
-    <a href="https://github.com/awhobbs" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
-    <a href="https://www.linkedin.com/in/andrewwhobbs" target="_blank" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
-    <a href="https://twitter.com/hobbservation" target="_blank" title="Twitter"><i class="fab fa-twitter"></i></a>
-    
-    
-    
-  </span>
-
-  <div class="col three caption">
-    
-  </div>
-</div>
 
   
 
