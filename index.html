@@ -1,236 +1,184 @@
 <!DOCTYPE html>
-<html lang="en-us">
+<html>
 
   <head>
-
-  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width initial-scale=1" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta http-equiv="content-type" content="text/html; charset=utf-8">
 
-  <!-- MathJax -->
- <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
- <script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-    tex2jax: {inlineMath: [['$','$'], ['\[','\]']]}
-    });</script>
-    
-  <!-- Enable responsiveness on mobile devices-->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+  <title>Andrew Hobbs</title>
+  <meta name="description" content="A beautiful Jekyll theme for academics">
 
-  <title>
+  <link rel="shortcut icon" href="http://localhost:4000//assets/img/favicon.ico">
 
-      Hobbservations &middot;
-
-  </title>
-
-  <!-- CSS -->
-  <link rel="stylesheet" href="/public/css/poole.css">
-  <link rel="stylesheet" href="/public/css/syntax.css">
-  <link rel="stylesheet" href="/public/css/lanyon.css">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700%7CPT+Sans:400">
-
-  <!-- Icons -->
-  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/apple-touch-icon-precomposed.png">
-  <link rel="shortcut icon" href="/public/favicon.ico">
-
-  <!-- RSS -->
-  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
-
-  <!-- Global Site Tag (gtag.js) - Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-107899414-1"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-
-    gtag('config', 'UA-107899414-1');
-  </script>
+  <link rel="stylesheet" href="http://localhost:4000//assets/css/main.css">
+  <link rel="canonical" href="http://localhost:4000//">
 </head>
 
 
   <body>
 
-    <!-- Target for toggling the sidebar `.sidebar-checkbox` is for regular
-     styles, `#sidebar-checkbox` for behavior. -->
-<input type="checkbox" class="sidebar-checkbox" id="sidebar-checkbox">
+    <header class="site-header">
 
-<!-- Toggleable sidebar -->
-<div class="sidebar" id="sidebar">
-  <div class="sidebar-item">
-    <p></p>
-  </div>
+  <div class="wrapper">
 
-  <nav class="sidebar-nav">
-    <a class="sidebar-nav-item" href="/">Home</a>
+    
 
+    <nav class="site-nav">
+      <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"/>
+              <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"/>
+              <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
 
+      <div class="trigger">
+        <!-- About -->
+        <a class="page-link" href="http://localhost:4000//">about</a>
 
+        <!-- Blog -->
+        <a class="page-link" href="http://localhost:4000//blog/">blog</a>
 
+        <!-- Pages -->
+        
+          
+        
+          
+        
+          
+        
+          
+            <a class="page-link" href="http://localhost:4000//projects/">projects</a>
+          
+        
+          
+            <a class="page-link" href="http://localhost:4000//teaching/">teaching</a>
+          
+        
+          
+        
+          
+        
 
+        <!-- CV link -->
+        <!-- <a class="page-link" href="http://localhost:4000//assets/pdf/CV.pdf">vitae</a> -->
 
-
-
-
-
-
-
-
-
-
-          <a class="sidebar-nav-item" href="/about/">About</a>
-
-
-
-
-
-
-
-          <a class="sidebar-nav-item" href="/hobbs-andrew-cv.pdf">CV</a>
-
-
-
-
-
-          <a class="sidebar-nav-item" href="/projects/">Projects and Publications</a>
-
-
-
-
-  </nav>
-
-  <div class="sidebar-item">
-    <p><small>
-    <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a>This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
-  </small></p>
-    <p><small>
-     <p>Built with <a href="https://jekyllrb.com/">Jekyll</a> using the <a href="http://lanyon.getpoole.com/">Lanyon</a> theme.</p>
-   </small></p>
-  </div>
-</div>
-
-
-    <!-- Wrap is the content to shift when toggling the sidebar. We wrap the
-         content to avoid any CSS collisions with our real content. -->
-    <div class="wrap">
-      <div class="masthead">
-        <div class="container">
-          <h3 class="masthead-title">
-            <a href="/" title="Home">Hobbservations</a>
-            <small></small>
-          </h3>
-        </div>
       </div>
-
-      <div class="container content">
-        <div class="posts">
-
-  <div class="post">
-    <h1 class="post-title">
-      <a href="/2017/12/09/Time-for-Cows-Learning-Preferences-from-Games/">
-        Time for Cows: Learning from Games
-      </a>
-    </h1>
-
-    <span class="post-date">09 Dec 2017</span>
-
-    <p>I designed a <a href="http://apps.hobbservations.com">game</a> about cows, droughts, and insurance to play with pastoralists in Kenya. The current version is far from user-friendly, but might be interesting to people engaged in this sort of research. We’ll be using the data to put together a model of their decision-making under risk that we hope will be accurate enough to help us design insurance products that better meet their needs.</p>
-
+    </nav>
 
   </div>
 
-  <div class="post">
-    <h1 class="post-title">
-      <a href="/2017/10/09/Simulating-Daisies-with-D3/">
-        Simulating Daisies with D3
-      </a>
-    </h1>
-
-    <span class="post-date">09 Oct 2017</span>
-
-    <p><a href="https://en.wikipedia.org/wiki/Daisyworld">Daisyworld</a> is a simulation of a planet that is slowly getting hotter, and I thought it seemed like a fun way to experiment with D3.js. It is
-inhabited by two species of daisies: dark daisies and light daisies. Dark daisies
-absorb solar radiation, meaning they can grow
-in cool temperatures and help the planet get warmer. Light daises reflect solar
-radiation and help the planet cool off. Without any
-coordination, dark and light daisies can keep their planet at a habitable temperature,
-even with variable solar radiation.</p>
+</header>
 
 
+
+    <div class="page-content">
+      <div class="wrapper">
+        <div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title"><strong>Andrew</strong> Hobbs</h1>
+    <h5 class="post-description">PhD Candidate, UC Davis</h5>
+  </header>
+
+  <article class="post-content <strong>Andrew</strong> Hobbs clearfix">
+    
+  <div class="profile col one right">
+    
+      <img class="one" src="http://localhost:4000//assets/img/headshot.jpg">
+    
+    
+      <div class="address">
+        
+      </div>
+    
   </div>
 
-  <div class="post">
-    <h1 class="post-title">
-      <a href="/2017/10/01/Earth-Engine-Econometrics/">
-        Earth Engine Econometrics
-      </a>
-    </h1>
 
-    <span class="post-date">01 Oct 2017</span>
+<p>I am a development and environmental economist studying how people cope with droughts, floods, and other environmental shocks. I am particularly interested in how household
+power structures lead the costs of those shocks to be unevenly distributed.</p>
 
-    <p>Google Earth Engine is not built to do econometrics, but it makes doing so with geographic data from a low-powered (and small hard-drived) computer practical. This post details one method to leverage the Earth Engine platform for panel regression, which makes it possible to obtain a plausibly causal estimate of the effects of weather fluctuations.</p>
+<p>Before starting my PhD, I lived and worked for several years in Mozambique studying climate smart agriculture. Prior to that, I worked on renewable energy and energy efficiency policy in the U.S., Germany, and China.</p>
+
+<p><a href="http://localhost:4000/andrew-hobbs-cv.pdf">Download my CV.</a></p>
 
 
+  </article>
+
+  
+
+  
+    <div class="social">
+  <span class="contacticon center">
+    <a href="mailto:%61%6E%64%72%65%77@%68%6F%62%62%73%65%72%76%61%74%69%6F%6E%73.%63%6F%6D"><i class="fas fa-envelope"></i></a>
+    
+    <a href="https://scholar.google.com/citations?user=kGBifbYAAAAJ" target="_blank" title="Google Scholar"><i class="ai ai-google-scholar"></i></a>
+    <a href="https://github.com/awhobbs" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+    <a href="https://www.linkedin.com/in/andrewwhobbs" target="_blank" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+    <a href="https://twitter.com/hobbservation" target="_blank" title="Twitter"><i class="fab fa-twitter"></i></a>
+    
+    
+    
+  </span>
+
+  <div class="col three caption">
+    
   </div>
-
-  <div class="post">
-    <h1 class="post-title">
-      <a href="/2017/09/29/Scraping-Data-from-PDFs/">
-        Scraping Data from Many Big PDFs
-      </a>
-    </h1>
-
-    <span class="post-date">29 Sep 2017</span>
-
-    <p>The <a href="http://calcarbondash.org/">California Carbon Dashboard</a>’s data comes from PDFs downloaded from Intercontinental Exchange (ICE). Unfortunately, these PDFs are daily and are more than 2000 pages long. In order to get the data out of them in a reasonable amount of time, we needed to figure out a way of quickly identifying the right pages and pulling tables from them. I figured I’d document this here, as I think it might be useful to someone else’s research.</p>
-
-
-  </div>
-
-  <div class="post">
-    <h1 class="post-title">
-      <a href="/2017/08/27/Using-Climate-and-Weather-Data-for-Economic-Analysis0/">
-        Using Climate and Weather Data for Economic Analysis
-      </a>
-    </h1>
-
-    <span class="post-date">27 Aug 2017</span>
-
-    <p>I prepared a <a href="http://hobbservations.com/WeatherData">slide deck</a> for my Environmental Economics class based on a very useful <a href="https://academic.oup.com/reep/article-abstract/7/2/181/1522753/Using-Weather-Data-and-Climate-Model-Output-in?redirectedFrom=fulltext">paper by Auffhammer, Hsiang, Schlenker, and Sobel</a>. I’m posting the slides here so they can be used as a quick reference for myself and others when it comes time to use these data.</p>
-
-  </div>
-
 </div>
 
-<div class="pagination">
-
-    <span class="pagination-item older">Older</span>
-
-
-    <span class="pagination-item newer">Newer</span>
+  
 
 </div>
 
       </div>
     </div>
 
-    <label for="sidebar-checkbox" class="sidebar-toggle"></label>
+    <footer>
 
-    <script>
-      (function(document) {
-        var toggle = document.querySelector('.sidebar-toggle');
-        var sidebar = document.querySelector('#sidebar');
-        var checkbox = document.querySelector('#sidebar-checkbox');
+  <div class="wrapper">
+    &copy; Copyright 2019 Andrew Hobbs.
+    
+    
+  </div>
 
-        document.addEventListener('click', function(e) {
-          var target = e.target;
+</footer>
 
-          if(!checkbox.checked ||
-             sidebar.contains(target) ||
-             (target === checkbox || target === toggle)) return;
 
-          checkbox.checked = false;
-        }, false);
-      })(document);
-    </script>
+    <!-- Load jQuery -->
+<script src="//code.jquery.com/jquery-1.12.4.min.js"></script>
+
+<!-- Load Common JS -->
+<script src="http://localhost:4000//assets/js/common.js"></script>
+
+
+<!-- Load KaTeX -->
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.js"></script>
+<script src="http://localhost:4000//assets/js/katex.js"></script>
+
+
+
+
+<!-- Include custom icon fonts -->
+<link rel="stylesheet" href="http://localhost:4000//assets/css/fontawesome-all.min.css">
+<link rel="stylesheet" href="http://localhost:4000//assets/css/academicons.min.css">
+
+<!-- Google Analytics -->
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-107899414-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+
   </body>
+
 </html>
