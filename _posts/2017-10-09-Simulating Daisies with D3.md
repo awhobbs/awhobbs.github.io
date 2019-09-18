@@ -23,4 +23,4 @@ The planet will eventually get too hot and they'll all die.
 
 <div style="text-align:center;"><svg width="500" height="500"></svg></div>
 <script src="https://d3js.org/d3.v4.min.js"></script>
-<script src = "http://hobbservations.com/daisyworld/daisyworld.js"></script>
+<script src="http://hobbservations.com/daisyworld/daisyworld.js"></script>
