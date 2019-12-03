@@ -6,13 +6,13 @@
   <meta name="viewport" content="width=device-width initial-scale=1" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-  <title>Andrew Hobbs</title>
+  <title>Andrew Hobbs | Simulating Daisies with D3</title>
   <meta name="description" content="hobbservations">
 
   <link rel="shortcut icon" href="/assets/img/favicon.ico">
 
   <link rel="stylesheet" href="/assets/css/main.css">
-  <link rel="canonical" href="/blog/">
+  <link rel="canonical" href="/blog/2017/Simulating-Daisies-with-D3/">
 </head>
 
 
@@ -83,56 +83,43 @@
 
     <div class="page-content">
       <div class="wrapper">
-        <div class="header-bar">
-  <h1>hobbservations</h1>
-  <h2></h2>
+        <div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Simulating Daisies with D3</h1>
+    <p class="post-meta">October 9, 2017</p>
+  </header>
+
+  <article class="post-content">
+    <p><a href="https://en.wikipedia.org/wiki/Daisyworld">Daisyworld</a> is a simulation of a planet that is slowly getting hotter, and I thought it seemed like a fun way to experiment with D3.js. It is
+inhabited by two species of daisies: dark daisies and light daisies. Dark daisies
+absorb solar radiation, meaning they can grow
+in cool temperatures and help the planet get warmer. Light daises reflect solar
+radiation and help the planet cool off. Without any
+coordination, dark and light daisies can keep their planet at a habitable temperature,
+even with variable solar radiation.</p>
+
+<p>Unfortunately, the daisies can still only inhabit their planet within a band of
+temperatures. The visualization below is a D3 adaptation of this model, which I built on the math from
+<a href="http://www3.geosc.psu.edu/~dmb53/DaveSTELLA/Daisyworld/daisyworld_model.htm">Portland State University</a>.</p>
+
+<p>Be patient, the planet is initially too cold for daisies to grow. When I get a chance
+maybe I’ll add a temperature tracker, but if you want to watch the numbers change in the
+meantime open a browser console (⌘ + Option + J in Chrome on a Mac, Ctrl + Shift + J on Linux/Windows).</p>
+
+<p>The planet will eventually get too hot and they’ll all die.</p>
+
+<div style="text-align:center;"><svg width="500" height="500"></svg></div>
+<script src="https://d3js.org/d3.v4.min.js"></script>
+
+<script src="http://hobbservations.com/daisyworld/daisyworld.js"></script>
+
+
+  </article>
+
+  
+
 </div>
-
-
-<ul class="post-list">
-  
-    <li>
-      <h2><a class="post-title" href="/blog/2017/Time-for-Cows-Learning-Preferences-from-Games/">Time for Cows: Learning from Games</a></h2>
-      <p class="post-meta">December 9, 2017 — 00:00</p>
-      <p></p>
-    </li>
-  
-    <li>
-      <h2><a class="post-title" href="/blog/2017/Simulating-Daisies-with-D3/">Simulating Daisies with D3</a></h2>
-      <p class="post-meta">October 9, 2017 — 00:00</p>
-      <p></p>
-    </li>
-  
-    <li>
-      <h2><a class="post-title" href="/blog/2017/Earth-Engine-Econometrics/">Earth Engine Econometrics</a></h2>
-      <p class="post-meta">October 1, 2017 — 00:00</p>
-      <p></p>
-    </li>
-  
-    <li>
-      <h2><a class="post-title" href="/blog/2017/Scraping-Data-from-PDFs/">Scraping Data from Many Big PDFs</a></h2>
-      <p class="post-meta">September 29, 2017 — 00:00</p>
-      <p></p>
-    </li>
-  
-</ul>
-
-
-<div class="pagination clearfix mb1 mt4">
-  <div class="left">
-    
-      <span class="pagination-item disabled">Newer</span>
-    
-  </div>
-  <div class="right">
-    
-      <a class="pagination-item" href="/blog/page2/">Older</a>
-    
-  </div>
-  <div class="pagination-meta">Page 1 of 2</div>
-</div>
-
-
 
       </div>
     </div>
