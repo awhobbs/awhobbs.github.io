@@ -9,7 +9,7 @@ profile:
   image:  headshot.jpg
   address: >
 
-news: false
+news: true
 social: true
 ---
 
