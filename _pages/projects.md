@@ -3,7 +3,7 @@ layout: page
 title: projects
 permalink: /projects/
 description: Research projects on development economics, insurance, and environmental shocks.
-nav: true
+nav: false
 nav_order: 2
 display_categories: []
 horizontal: false
