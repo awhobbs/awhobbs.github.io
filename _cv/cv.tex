@@ -1,0 +1,327 @@
+\documentclass[letterpaper]{article}
+
+\usepackage{hyperref}
+\usepackage{geometry}
+\usepackage{enumitem}
+\usepackage{verbatim}
+%\usepackage{helvet}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc} %include font support
+%\usepackage{lmodern} %make fonts look better
+\usepackage{tgpagella}
+\usepackage{tabularx}
+
+% Comment the following lines to use the default Computer Modern font
+% instead of the Palatino font provided by the mathpazo package.
+% Remove the 'osf' bit if you don't like the old style figures.
+%\usepackage[T1]{fontenc}
+%\usepackage[sc, osf]{mathpazo}
+%\usepackage[scaled=0.75]{beramono}
+%\usepackage{xagaramon}
+
+\title{Andrew Hobbs - Resume}
+
+\def\name{Andrew Hobbs}
+
+% Replace this with a link to your CV if you like, or set it empty
+% (as in \def\footerlink{}) to remove the link in the footer:
+\def\footerlink{}
+
+% The following metadata will show up in the PDF properties
+\hypersetup{
+  colorlinks = true,
+  urlcolor = black,
+  pdfauthor = {\name},
+  pdfkeywords = {},
+  pdftitle = {\name: Resume},
+  pdfsubject = {Resume},
+  pdfpagemode = UseNone
+}
+\renewcommand{\labelitemi}{$\vcenter{\hbox{\small$\bullet$}}$}
+%\renewcommand{\sfdefault}{phv} %Set default sans serif font
+%\renewcommand{\familydefault}{\sfdefault} %Set default font to sans serif - must specify where roman is used
+
+% Customize page headers
+\pagestyle{myheadings}
+\markright{\name}
+\thispagestyle{empty}
+\raggedright
+
+
+% Other possible font commands include:
+% \ttfamily for teletype,
+% \sffamily for sans serif,
+% \bfseries for bold,
+% \scshape for small caps,
+% \normalsize, \large, \Large, \LARGE sizes.
+
+% This sets the spacing for everything!  Choose wisely.
+\newcommand{\bighorse}{8pt} %Spacing between heading and subheading
+\newcommand{\horse}{7pt} 	%Space between subheading and items
+\newcommand{\littlehorse}{6.5pt}%Space between items
+
+\newcommand{\reswidth}{6.5in}
+
+\geometry{
+  body={\reswidth, 8.5in},
+  left=1.0in,
+  top=1.25in
+}
+
+\setlength\parindent{0em}
+
+%Make the lists accept my spacing
+\newenvironment{itemize*}%
+  {\begin{itemize}[topsep=0pt, partopsep=0pt, leftmargin=0pt]%
+    \setlength{\itemsep}{\littlehorse}%
+    \setlength{\parskip}{0pt}}%
+  {\end{itemize}\vspace{\horse}}
+  
+%-----------------------------------------------------------
+%Custom commands
+\newcommand{\resheading}[1]{{\textbf{\large{{#1 \vphantom{p\^{E}}}\vspace{\bighorse}}}}}
+\newcommand{\ressubheading}[3]{
+	\noindent\textbf{#1}, \textit{#2} \hfill {#3}\par\vspace{\horse}}
+%-----------------------------------------------------------
+
+\begin{document}
+
+\vspace{0.02in}
+\centerline{\huge \textbf{\name}}
+\vspace{0.08in}
+
+%\centerline{+1-801-641-1483 
+%	$\vcenter{\hbox{\tiny$\bullet$}}$
+%    \href{mailto:ahobbs@usfca.edu}{ahobbs@usfca.edu}
+%    $\vcenter{\hbox{\tiny$\bullet$}}$
+%    \href{http://hobbservations.com}{hobbservations.com}}
+%\vspace{-.065in}
+
+
+\vspace{\bighorse}
+
+
+\resheading{Education}
+
+\ressubheading{PhD Agricultural and Resource Economics}{University of California, Davis}{2015-2020}
+\vspace{-5pt}
+\noindent Fields: Development Economics, Environmental Economics.
+\vspace{\horse}
+
+\ressubheading{M.A. Economics}{\href{http://www.ubc.ca/}{University of British Columbia}}{2010}
+
+\ressubheading{Honors B.S. Economics, B.A. International Studies}{\href{http://www.utah.edu/}{University of Utah}}{2009}
+
+\resheading{Employment}
+
+\ressubheading{Assistant Professor}{Economics, University of San Francisco}{2020-Present}
+
+\ressubheading{Graduate Student Researcher}{University of California, Davis}{2016-2020}
+
+\ressubheading{Graduate Student Instructor}{University of California, Davis}{2016}
+
+\ressubheading{Analyst}{\href{http://www.climatepolicyinitiative.org/}{Climate Policy Initiative}}{2010-2016}
+\begin{comment}
+			\begin{itemize*}
+			\item{Led Climate Policy Initiative's (CPI) work program on agriculture and forest protection in Mozambique, working closely with Barclays Africa on agricultural credit initiatives, value chain analyses, and land tenure issues.}
+                
+				\item{Managed projects analyzing the impact of solar leasing in California, building codes in the U.S., land use policy in Mozambique, and oil refinery emissions in the European Union.}
+                \item{Designed and coded the California Carbon Dashboard, an interactive website that informs stakeholders about California's carbon price and related policies.}
+                				
+                \item{Supported research on concentrating solar power in South Africa and building energy efficiency in China, Germany, and the United States.} 
+			\end{itemize*}
+
+	\ressubheading{Graduate Research/ Teaching Assistant}
+		{University of British Columbia}
+		{2009 - 2010}
+			\begin{itemize*}
+
+				\item{Developed novel statistical methodology for groundbreaking research on the determinants of equity share splits among founders of startups.}
+				\item{Taught introductory and development economics courses for classes of 20 and 120 students throughout the year.}
+			\end{itemize*}
+	
+	\ressubheading{Research Assistant}
+  		{\href{http://www.ped.med.utah.edu/}{University of Utah Department of Pediatrics}}
+			{2007 - 2009}
+			\begin{itemize*}
+
+				\item{Managed data collection and developed and maintained a database for a study focused on identifying the healthcare needs of Spanish-speaking families of children with special healthcare needs such as severe ADHD, neurological problems, physical disabilities, and chronic illnesses.}
+			\end{itemize*}
+	 \ressubheading{Senior Project Supervisor}
+  		{\href{http://www.amigoslink.org/}{Amigos de las Am\'{e}ricas}, \href{http://en.wikipedia.org/wiki/Chontales}{Chontales, Nicaragua}}
+		{2008}
+			\begin{itemize*}
+
+				\item{Worked with PLAN Nicaragua to develop a program focusing on environmental stewardship, health promotion, and youth leadership.}
+				\item{Trained and supported a team of six supervisors 
+				and 56 volunteers in 23 Nicaraguan communities.}
+			\end{itemize*}
+          
+		\ressubheading{Project Supervisor}
+  			{\href{http://www.amigoslink.org/}{Amigos de las Am\'{e}ricas}, \href{http://en.wikipedia.org/wiki/Paraguari_Department}{Paraguar\'{i}, Paraguay}} 
+			{2007}
+			\begin{itemize*}
+			\item{Supported nine volunteers in four communities in implementing community-driven sustainable development projects in rural Paraguay.}
+			\end{itemize*}
+
+
+\resheading{Research In Progress}
+\begin{itemize*}
+\item[]{"Machine Learning for Index Insurance"}
+
+\item[]{"Do Droughts Drive Deforestation? Evidence from Mozambique"}
+
+\item[]{"Insuring what matters most: the gendered impact of framing on index insurance uptake." with Michael Carter.}
+
+\end{itemize*}
+\end{comment}
+
+\resheading{Peer-Reviewed Publications}
+\begin{itemize*}
+
+  \item[]{"Gender and Culture Shape Prosociality More than Heat Stress in a Five-Country Experiment".  \textit{Forthcoming at PNAS Nexus}. with Alessandra Cassar, Jesse Anttila-Hughes, Francesco Bogliacino, Travis Lybbert, Irvin Rojas, Kelvin Mashisia Shikuku, John Chetwynd, Jake Cosgrove, Alexander Courtman, Andrew Hall, Stephanie Hermoso, Scott Klaus, Antonia Sottile, Nikita Tkachenko, and Bruce Wydick.}
+
+  \item[]{"Refractive Error Correction and Harvest Worker Productivity in the Guatemalan Coffee Sector: A Quasi-experimental Analysis" (2026).  \textit{Global Public Health}, 21(1). with Bryce Everett, Brad Wong, Erwin Herdocia, Heidy Linares, Ana Marroquín, Juan Francisco Yee, K. Davina Frick, Travis Lybbert, and Bruce Wydick.}
+
+  \item[]{"Reformulating Index Insurance to Protect Women's Assets and Well-being: Evidence from Pastoralist Communities in Kenya".  \textit{Forthcoming at World Development}. with Michael Carter and Julian Arteaga.}
+
+  \item[]{"Get in the Zone: The Risk-Adjusted Welfare Effects of Data-Driven vs. Administrative Borders for Index Insurance Zones" (2025).  \textit{Journal of Development Economics}. with Ella Kirchner, Elinor Benami, Michael Carter, and Zhenong Jin.}
+
+  \item[]{"Bridging Science and Practice to En(in)sure Sustainable Development in a Changing Climate" (2024).  \textit{Journal of Catastrophe Risk and Resilience}. with Colby K. Fisher, Elinor Benami, Michaela Dolk, Jane W. Baldwin, Inbal Becker-Reshef, Rosa I. Cuppari, Tobias Dalhaus, Gregor Leckebusch, Peter Lacovara, Adam H. Sobel, and Elizabeth Tellman.}
+
+  \item[]{"The Distribution of Energy Efficiency and Regional Inequality" (2023).  \textit{The Energy Journal}. Awarded Campbell Watkins Paper for the best paper in The Energy Journal in 2023. with Puja Singhal.}
+
+  \item[]{"Uniting remote sensing, crop modelling and economics for agricultural risk management" (2021).  \textit{Nature Reviews: Earth \& Environment}. with Elinor Benami, Zhenong Jin, Michael R. Carter, Aniruddha Ghosh, Benson Kenduiywo, and David B. Lobell.}
+
+  \item[]{"Gender Differences in Authorship of Clinical Problem-solving Articles" (2020).  \textit{Journal of Hospital Medicine} 15 (8). with Elizabeth Adler, Jennifer Babik, and Gurpreet Dhaliwal}
+
+  \item[]{"\href{http://www.tandfonline.com/doi/abs/10.1080/00036846.2011.564153#.Uqi8GmQW1eM}{Measuring the effect of bi-directional migration remittances on poverty and inequality in Nicaragua}."  (2012). \textit{Applied Economics}, Volume 44, Issue 19.}
+
+\end{itemize*}
+
+\resheading{Reports and Other Publications}
+\begin{itemize*}
+
+  \item[]{"Colorism and Economic Opportunity in Nigeria" (2021).  \textit{Pierless Bridges}. with Mutiu Fakorede and Airah Balogun.}
+
+  \item[]{"Satellite-based Prediction of Forage Conditions for Livestock in Northern Kenya" (2020).  \textit{Conference Paper, International Conference on Learning Representations (ICLR) 2020}. with Stacey Svetlichnaya}
+
+  \item[]{"\href{http://climatepolicyinitiative.org/publication/challenges-opportunities-efficient-land-use-mozambique-taxes-financing-infrastructure/}{Challenges and Opportunities for Efficient Land Use in Mozambique: Taxes, Financing, and Infrastructure}"  (2016). \textit{Climate Policy Initiative}. with Amanda de Albuquerque}
+
+  \item[]{"\href{http://calcarbondash.org}{The California Carbon Dashboard.}"  (2013). \textit{Climate Policy Initiative}. Interactive Website.}
+
+  \item[]{"\href{http://climatepolicyinitiative.org/publication/improving-solar-policy-lessons-from-the-solar-leasing-boom-in-california/}{Improving Solar Policy: Lessons from the solar leasing boom in California.}"  (2013). \textit{Climate Policy Initiative}. with Elinor Benami, Brendan Pierpont, and Uday Varadarajan.}
+
+  \item[]{"\href{http://climatepolicyinitiative.org/publication/buildings-energy-efficiency-in-china-germany-and-the-united-states/}{Building Energy Efficiency in China, Germany, and the United States.}"  (2012). \textit{Climate Policy Initiative}. with Hermann Amecke, Aleksandra Novikova, Yang Xiu, and Shengyuan Zhang.}
+
+  \item[]{"\href{http://climatepolicyinitiative.org/publication/clearing-the-air-carbon-pricing-and-local-air-pollution-in-california/}{Clearing the Air: Carbon Pricing and Local Air Pollution in California.}"  (2012). \textit{Climate Policy Initiative}. with Kath Rowley.}
+
+  \item[]{"\href{http://climatepolicyinitiative.org/publication/codes-to-cleaner-buildings-effectiveness-of-u-s-building-energy-codes/}{Codes to Cleaner Buildings: Effectiveness of U.S. Building Energy Codes.}"  (2011). \textit{Climate Policy Initiative}. with Jeff Deason.}
+
+\end{itemize*}
+\begin{comment}
+\resheading{Skills}
+	\begin{itemize*}
+    	\item{Economic modeling, econometric analysis, machine learning, statistical methods, GIS analysis, and financial modeling.}
+		\item{Full professional proficiency in Spanish; proficient in Portuguese.}
+		\item{Data analysis and numerical methods in python and R.}
+        \item{Visualization and analysis in Google Earth Engine, QGIS, and D3.js.}
+	\end{itemize*}
+\end{comment}
+
+\resheading{Presentations}
+\begin{itemize*}
+
+\item[]{"Scalable Country-Level Crop Yield Modeling for Food Security and Risk Mitigation" Poster Presentation at Tackling Climate Change with Machine Learning Workshop, NeurIPS 2025. December 2025}
+
+\item[]{"Mapping Global Climate Risk in Agriculture" Presentation at Integral Ecology in Action: A Decade of Laudato si', University of San Francisco. April 10, 2025}
+
+\item[]{"Enabling Technology Adoption through Learning" USAID Feed the Future Innovation Lab for Markets, Risk and Resilience Webinar. November 7, 2024}
+
+\item[]{"Reformulating Index Insurance to Protect Women’s Assets and Well-being: Evidence from Pastoralist Communities in Kenya." IPA/ GPRL Annual Researcher Gathering. September 5, 2024}
+
+\item[]{"Reformulating Index Insurance to Protect Women’s Assets and Well-being: Evidence from Pastoralist Communities in Kenya." UC Davis Development Economics Seminar. November 28, 2023}
+
+\item[]{"Reformulating Index Insurance to Protect Women’s Assets and Well-being: Evidence from Pastoralist Communities in Kenya." International Food Policy Research Institute Invited Seminar. July 20, 2023}
+
+\item[]{"Machine Learning with Satellite and Survey Data for Index Insurance." Risk and Insurance Studies Centre Climate Risk Day. March 23, 2023}
+
+\item[]{"Machine Learning with Satellite and Survey Data for Index Insurance." American Geophysical Union Annual Meeting. December 15, 2022}
+
+\item[]{"Gender and the Decision to Insure." International Conference on Inclusive Insurance. October 27, 2022}
+
+\item[]{"Machine Learning for Index Insurance." American Agricultural Economics Association Annual Meeting. August 2, 2022}
+
+\item[]{"Machine Learning for Index Insurance." American Geophysical Union Annual Meeting. December 13, 2021}
+
+\item[]{"Intrahousehold Risk Sharing: Evidence from Samburu County, Kenya." American Risk and Insurance Association Annual Meeting. August 3, 2021}
+
+\item[]{"Do Droughts Drive Deforestation? Evidence from Mozambique." American Agricultural Economics Association Annual Meeting. August 2, 2021}
+
+\item[]{"Artificial Intelligence for Food Security." IndabaX Tanzania. June 19, 2021}
+
+\item[]{"On Heat Demand and the Distribution of Energy Efficiency." Midwest Economics Association. March 22, 2021}
+
+\item[]{"Machine Learning for Optimal Index Insurance." American Geophysical Union Annual Meeting. December 15, 2020}
+
+\item[]{"Household Decisions Under Risk: Evidence from Samburu County, Kenya." American Agricultural Economics Association, July 21, 2019, Atlanta, Georgia.}
+
+\item[]{"Durable Empowerment: Designing Insurance to Maximize Benefits for Women" Digital Credit Observatory Women's Economic Empowerment Convening, June 27, 2019, Berkeley, California.}
+
+\item[]{"Computer Vision for Drought Resilience" Computer Vision and Pattern Recognition (CVPR 2019), June 15, 2019, Long Beach, California.}
+
+\item[]{"Do Droughts Drive Deforestation?" Association of Environmental and Resource Economics Summer Conference, May 30, 2019, Incline Village, California.}
+
+\item[]{"Household Decisions Under Risk: Evidence from Samburu County, Kenya." Departmental Seminar, University of San Francisco Department of Economics, January 31, 2019, San Francisco, California.}
+
+\item[]{"More frequent flooding accelerates deforestation in Mozambique." Geo4Dev, November 15, 2018, Berkeley, California.}
+
+\item[]{"\href{https://basis.ucdavis.edu/news/africa-based-think-tank-event-highlights-role-evidence-development-policy}{Learning about pastoralist decisionmaking with games.}" International Center for Evaluation \& Development Evidence to Action Conference, July 24, 2018, Nairobi, Kenya.}
+
+\item[]{"\href{http://climatepolicyinitiative.org/publication/improving-solar-policy-lessons-from-the-solar-leasing-boom-in-california/}{Lessons for South Africa from the solar leasing boom in California.}" Solar Indaba, September 4, 2013, Cape Town, South Africa.}
+
+\item[]{"Financial Incentives for Energy Efficient Retrofits in Buildings."  ACEEE Buildings Summer Study, August 12, 2012.}
+        
+\item[]{"Remittances, Poverty, \& Inequality in Nicaragua." University of Utah Undergraduate Research Symposium, Salt Lake City, UT, USA, March 31, 2009.}
+        
+\end{itemize*} 
+
+\resheading{Grants and Awards}
+
+\begin{itemize*}
+
+\item[]{ Colorism and Economic Opportunity in Nigeria (2021), \$5000, University of San Francisco Jesuit Foundation Grant.}
+
+\item[]{ Quantifying the Economic Cost of Weather Risk (2020), \$3823.68, University of San Francisco Faculty Development Grant.}
+
+\item[]{ Sokoni: A Digital Livestock Marketplace for Northern Kenya (2019), \$2900, Poverty Alleviation through Sustainable Solutions (PASS) Grant, Blum Center for Developing Economies.}
+
+\item[]{ Sokoni: A Digital Livestock Marketplace for Northern Kenya (2019), \$3000, Henry A. Jastro Research Grant.}
+
+\item[]{ Droughtwatch: Computer Vision for Index Insurance (2019), Computer Vision for Global Challenges Travel Grant to CVPR 2020, Facebook.}
+
+\end{itemize*}
+
+\resheading{Other Professional Activities}
+
+\begin{itemize*}
+\item[]{Member of Partnership for AI working group on AI for Global Food Security.}
+\item[]{Referee: American Journal of Agricultural Economics, Agricultural Economics, Economic Development and Cultural Change, European Economic Review, Journal of Development Studies, Natural Hazards, Sustainability, Geneva Papers on Risk and Insurance, Risk Management and Insurance Review, Agricultural Economics, Climate Policy, Climate Research, Food Policy.}
+\end{itemize*}
+\begin{comment}
+
+
+
+\resheading{References}
+
+\begin{tabular*}{0.8\linewidth}{@{\extracolsep{\fill}}lll}
+
+ Michael Carter  & Travis Lybbert & Katrina Jessoe \\ 
+
+Professor (Committee Chair) & Professor& Associate Professor \\
++1-608-628-8921 & +1-530-554-1393 & +1-530-752-6977 \\
+          mrcarter@ucdavis.edu & tlybbert@ucdavis.edu & kkjessoe@ucdavis.edu\\
+\end{tabular*}
+\end{comment}
+
+\end{document}
