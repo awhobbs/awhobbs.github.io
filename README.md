@@ -1,1 +1,0 @@
-This is the source code for my website. It was built using [jekyll](https://jekyllrb.com/) and the [al-folio theme](https://github.com/alshedivat/al-folio).

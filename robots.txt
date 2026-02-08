@@ -1,0 +1,4 @@
+User-agent: *
+Disallow:
+
+Sitemap: https://hobbservations.com/sitemap.xml
