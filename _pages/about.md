@@ -27,4 +27,7 @@ Before starting my PhD, I lived and worked for several years in Mozambique study
 *with Kajal Gulati*
 
 **With big data come big problems: pitfalls in measuring basis risk for crop index insurance**
-*with Matthieu Stigler and Apratim Dey*
+*with Matthieu Stigler, Apratim Dey, and David Lobell*
+
+**Financial Literacy and Entrepreneurial Aspirations: Results from Pilot Experiments in India, Peru, and Uganda**
+*with Ester Agasha, Akash Shaji, and Bruce Wydick*
