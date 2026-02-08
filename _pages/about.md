@@ -12,7 +12,7 @@ profile:
 
 news: false
 selected_papers: true
-social: true
+social: false
 ---
 
 I am a development and environmental economist studying how people cope with droughts, floods, and other environmental shocks. I am particularly interested in how household power structures lead the costs of those shocks to be unevenly distributed. Much of my research relies on linking satellite data with ground-based survey datasets to study how droughts affect people, their crops, and natural landscapes.
