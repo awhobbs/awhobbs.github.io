@@ -28,8 +28,18 @@ Andrew Hobbs's personal academic website at **hobbservations.com**.
 ## PDF Redirect Note
 `assets/pdf/Gender_and_the_Decision_to_Insure.pdf` was the old filename for the insurance framing working paper. It was replaced with the current version so that old external links still work. The canonical filename going forward is `Insurance_Framing_and_Demand.pdf`.
 
+## Deploy Workflow
+- `.github/workflows/deploy.yml` triggers on pushes to master
+- **Path filter**: only triggers when matching files change (`.html`, `.liquid`, `.md`, `.yml`, `.bib`, `assets/**`, `Gemfile`)
+- `.bib` was added to the path filter (March 2026) — previously bib-only commits didn't trigger builds
+- Use `gh workflow run deploy.yml --ref master` to trigger manually if needed
+
 ## Build
 ```bash
 bundle exec jekyll serve  # local preview
 # Pushes to master trigger GitHub Actions deploy
 ```
+
+## Gotchas
+- `enable_publication_thumbnails` is set to `false` in `_config.yml`. Turning it on adds an empty left column that indents publications.
+- The `max_author_limit` is set to 3 in `_config.yml` with a "click to expand" for longer author lists.
