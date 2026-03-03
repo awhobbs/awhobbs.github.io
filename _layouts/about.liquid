@@ -59,9 +59,17 @@ layout: default
     <!-- Selected papers -->
     {% if page.selected_papers %}
       <h2>
-        <a href="{{ '/publications/' | relative_url }}" style="color: inherit">selected publications</a>
+        <a href="{{ '/publications/' | relative_url }}" style="color: inherit">Selected Publications</a>
       </h2>
       {% include selected_papers.liquid %}
+    {% endif %}
+
+    <!-- Research in Progress -->
+    {% if page.research_in_progress %}
+      <h2>Research in Progress</h2>
+      <div class="research-in-progress">
+        {{ page.research_in_progress | markdownify }}
+      </div>
     {% endif %}
 
     <!-- Social -->
