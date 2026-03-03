@@ -14,6 +14,9 @@ news: false
 selected_papers: true
 social: false
 research_in_progress: |
+  **[Insuring the Family or the Asset? The Impact of Product Framing on Demand](/assets/pdf/Insurance_Framing_and_Demand.pdf)**
+  *Under review*
+
   **Do Droughts Drive Deforestation?: Evidence from Mozambique**
 
   **Impact of Agricultural Policies on Crop Residue Burning in India**
