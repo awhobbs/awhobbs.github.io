@@ -3,7 +3,7 @@ layout: page
 title: SimPastoralist
 description: A web-based pastoralist simulation game for studying insurance demand
 img: assets/img/simpastoralist.png
-importance: 3
+importance: 4
 category:
 ---
 

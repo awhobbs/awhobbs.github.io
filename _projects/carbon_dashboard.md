@@ -3,7 +3,7 @@ layout: page
 title: California Carbon Dashboard
 description: Live tracking of cap-and-trade auction prices and emissions policy
 img: assets/img/carbon_dashboard.png
-importance: 4
+importance: 5
 category:
 redirect: https://hobbservations.com/carbon-dashboard/
 ---

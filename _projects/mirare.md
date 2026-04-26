@@ -3,7 +3,7 @@ layout: page
 title: Mirare
 description: A livestock marketplace for pastoralists in Northern Kenya
 img: assets/img/sokoni.png
-importance: 5
+importance: 6
 category:
 ---
 
