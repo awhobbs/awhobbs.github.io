@@ -2,7 +2,7 @@
 layout: page
 title: Financial Literacy Game
 description: A mobile game for financial literacy, tested in field experiments in Uganda and India
-img: assets/img/game.png
+img: assets/img/financial_literacy_game.png
 importance: 3
 category:
 ---
