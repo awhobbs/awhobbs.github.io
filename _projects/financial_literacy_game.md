@@ -9,7 +9,7 @@ category:
 
 **[Try the game →](https://testfin-e8e9d.web.app/)**
 
-A mobile financial literacy game that teaches budgeting, saving, and small-business cash flow through a playable "farm finance" scenario. We built it to test whether game-based learning improves financial outcomes for women microcredit borrowers, and whether pairing it with an aspirations intervention amplifies the effect.
+A mobile financial literacy game that teaches budgeting, saving, and small-business cash flow through a playable "farm finance" scenario. We built it to test whether game-based learning improves financial outcomes for microcredit borrowers, and whether pairing it with an aspirations intervention amplifies the effect.
 
 The current build supports multiple languages, generates hints for every question, and produces audio output that we're refining for natural pronunciation in Luganda and other local languages. We're also adding an AI tutor that responds to player questions.
 
