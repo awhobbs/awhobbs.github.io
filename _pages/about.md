@@ -29,6 +29,8 @@ research_in_progress: |
   *with Ester Agasha, Akash Shaji, and Bruce Wydick*
 ---
 
-I am a development and environmental economist studying how people cope with droughts, floods, and other environmental shocks. I am particularly interested in how household power structures lead the costs of those shocks to be unevenly distributed. Much of my research relies on linking satellite data with ground-based survey datasets to study how droughts affect people, their crops, and natural landscapes.
+I'm a development and environmental economist. I use machine learning and big data, including satellite imagery linked with ground-based surveys, to study how technology helps people learn about and adapt to climate change. Current threads include index insurance for smallholder farmers and the welfare effects of AI in low- and middle-income economies, where generative tools are reshaping the cost of building software.
 
-Before starting my PhD, I lived and worked for several years in Mozambique studying climate smart agriculture. Prior to that, I worked on renewable energy and energy efficiency policy in the U.S., Germany, and China.
+Before grad school I lived and worked in Mozambique on climate-smart agriculture. Earlier, I worked on renewable energy and energy efficiency policy in the U.S., Germany, and China.
+
+At USF I'm Academic Director of the [Master of Science in Applied Economics](https://www.usfca.edu/arts-sciences/programs/graduate/applied-economics) (MSAE) and a co-organizer of the [Bay Area Tech Economics Seminar](https://myusf.usfca.edu/arts-sciences/economics/msae/BATES). Prospective graduate students interested in working with me should apply to MSAE, or to USF's [International and Development Economics](https://www.usfca.edu/arts-sciences/programs/graduate/international-development-economics) (IDEC) MS.
