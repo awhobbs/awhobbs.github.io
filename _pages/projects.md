@@ -2,8 +2,8 @@
 layout: page
 title: projects
 permalink: /projects/
-description: Research projects on development economics, insurance, and environmental shocks.
-nav: false
+description: This page contains links and information about some projects I've worked on over the years that were not academic papers.
+nav: true
 nav_order: 2
 display_categories: []
 horizontal: false
@@ -29,7 +29,7 @@ horizontal: false
     </div>
   </div>
   {% else %}
-  <div class="row row-cols-1 row-cols-md-3">
+  <div class="row row-cols-1 row-cols-md-2">
     {% for project in sorted_projects %}
       {% include projects.liquid %}
     {% endfor %}
@@ -54,7 +54,7 @@ horizontal: false
     </div>
   </div>
   {% else %}
-  <div class="row row-cols-1 row-cols-md-3">
+  <div class="row row-cols-1 row-cols-md-2">
     {% for project in sorted_projects %}
       {% include projects.liquid %}
     {% endfor %}
