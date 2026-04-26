@@ -13,6 +13,6 @@ An interactive web map of predicted maize yields by admin2 district across 35 Su
 
 The map shows ~3,250 admin2 units across the region. Validation level (whether ground truth exists at admin2, admin1, or country level) is encoded in the polygon border style, so it's easy to see where predictions are anchored to direct observations versus extrapolated. A harvest-month filter desaturates districts whose typical harvest falls outside the selected window, and an "anomaly" view shows each district's yield as standard deviations from its long-run mean.
 
-The pipeline pulls satellite features via Google Earth Engine, merges them with GROW-Africa survey yields, trains the model, and exports per-year choropleth slices. Site is in active development — working paper coming soon.
+The pipeline pulls satellite features via Google Earth Engine, merges them with GROW-Africa survey yields, trains the model, and exports per-year choropleth slices. Site and underlying yield prediction model are in active development — working paper coming soon.
 
 Presented at the [Tackling Climate Change with Machine Learning workshop at NeurIPS 2025](https://www.climatechange.ai/events/neurips2025).
