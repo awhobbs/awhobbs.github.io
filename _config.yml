@@ -56,8 +56,8 @@ og_image:
 # Analytics
 # -----------------------------------------------------------------------------
 
-google_analytics:
-enable_google_analytics: false
+google_analytics: G-ED3X72EBD5
+enable_google_analytics: true
 enable_cronitor_analytics: false
 enable_pirsch_analytics: false
 enable_openpanel_analytics: false
