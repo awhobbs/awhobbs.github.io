@@ -13,6 +13,8 @@ A mobile financial literacy game that teaches budgeting, saving, and small-busin
 
 The current build supports multiple languages, generates hints for every question, and produces audio output that we're refining for natural pronunciation in Luganda and other local languages. We're also adding an AI tutor that responds to player questions.
 
+The initial app was developed by Lucie Schulz. Nathalie Nyanga leads the current version and the AI additions.
+
 A randomized controlled trial in Uganda and India tests four arms: the game alone, an inspirational film with goal-setting exercises, both combined, and a control group. Pilot results across India, Peru, and Uganda are written up in the working paper [*Financial Literacy and Entrepreneurial Aspirations*](https://escholarship.org/uc/item/18v0r6ks). Uganda showed strong gains on numeracy, financial knowledge, and behavior; India saw smaller knowledge effects but a noticeable lift in aspirations. The full trial is fielding now.
 
 With Ester Agasha, Bruce Wydick, Akash Shaji, and Nathalie Nyanga. Project background at [CEGA](https://cega.berkeley.edu/collection/developing-financial-literacy-and-aspirations-in-uganda-and-india/).
