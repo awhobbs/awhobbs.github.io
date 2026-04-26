@@ -29,7 +29,7 @@ research_in_progress: |
   *with Ester Agasha, Akash Shaji, and Bruce Wydick*
 ---
 
-I'm a development and environmental economist. I use machine learning and big data, including satellite imagery linked with ground-based surveys, to study how technology helps people learn about and adapt to climate change. Current threads include index insurance for smallholder farmers and the welfare effects of AI in low- and middle-income economies, where generative tools are reshaping the cost of building software.
+I'm a development and environmental economist. I use machine learning and big data, including satellite imagery linked with ground-based surveys, to study how technology helps people learn, and how it helps them adapt to climate change. Current threads include index insurance for smallholder farmers and the welfare effects of AI in low- and middle-income economies.
 
 Before grad school I lived and worked in Mozambique on climate-smart agriculture. Earlier, I worked on renewable energy and energy efficiency policy in the U.S., Germany, and China.
 
