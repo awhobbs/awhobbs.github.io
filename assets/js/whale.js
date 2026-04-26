@@ -69,13 +69,24 @@
 
   const SPEED_PX_PER_SEC = 45;
   const PADDING = 100;
+  const STATE_KEY = 'whaleState_v1';
   let lastIndex = -1;
 
-  let x = Math.random() * Math.max(window.innerWidth - 2 * PADDING, 1) + PADDING;
-  let y = Math.random() * Math.max(window.innerHeight - 2 * PADDING, 1) + PADDING;
-  let tx = x;
-  let ty = y;
-  let facing = 1;
+  let x, y, tx, ty, facing = 1;
+  let saved = null;
+  try { saved = JSON.parse(sessionStorage.getItem(STATE_KEY) || 'null'); } catch (_) {}
+  if (saved && Number.isFinite(saved.x) && Number.isFinite(saved.y)) {
+    x = Math.min(Math.max(saved.x, 0), window.innerWidth);
+    y = Math.min(Math.max(saved.y, 0), window.innerHeight);
+    tx = Number.isFinite(saved.tx) ? saved.tx : x;
+    ty = Number.isFinite(saved.ty) ? saved.ty : y;
+    facing = saved.facing === -1 ? -1 : 1;
+  } else {
+    x = Math.random() * Math.max(window.innerWidth - 2 * PADDING, 1) + PADDING;
+    y = Math.random() * Math.max(window.innerHeight - 2 * PADDING, 1) + PADDING;
+    tx = x;
+    ty = y;
+  }
   let lastTime = performance.now();
 
   function pickTarget() {
@@ -86,7 +97,15 @@
     tx = Math.random() * (maxX - minX) + minX;
     ty = Math.random() * (maxY - minY) + minY;
   }
-  pickTarget();
+  if (!saved) pickTarget();
+
+  function saveState() {
+    try {
+      sessionStorage.setItem(STATE_KEY, JSON.stringify({ x, y, tx, ty, facing }));
+    } catch (_) {}
+  }
+  window.addEventListener('pagehide', saveState);
+  window.addEventListener('beforeunload', saveState);
 
   function tick(now) {
     const dt = Math.min((now - lastTime) / 1000, 0.05);
