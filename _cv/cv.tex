@@ -57,8 +57,8 @@
 
 % This sets the spacing for everything!  Choose wisely.
 \newcommand{\bighorse}{8pt} %Spacing between heading and subheading
-\newcommand{\horse}{7pt} 	%Space between subheading and items
-\newcommand{\littlehorse}{6.5pt}%Space between items
+\newcommand{\horse}{5pt} 	%Space between subheading and items
+\newcommand{\littlehorse}{5pt}%Space between items
 
 \newcommand{\reswidth}{6.5in}
 
@@ -72,7 +72,7 @@
 
 %Make the lists accept my spacing
 \newenvironment{itemize*}%
-  {\begin{itemize}[topsep=0pt, partopsep=0pt, leftmargin=0pt]%
+  {\begin{itemize}[topsep=0pt, partopsep=0pt, leftmargin=1.6em, itemindent=-1.6em, labelsep=0pt, labelwidth=0pt]%
     \setlength{\itemsep}{\littlehorse}%
     \setlength{\parskip}{0pt}%
     \interlinepenalty=10000}%
@@ -80,7 +80,10 @@
   
 %-----------------------------------------------------------
 %Custom commands
-\newcommand{\resheading}[1]{{\textbf{\large{{#1 \vphantom{p\^{E}}}\vspace{\bighorse}}}}}
+\newcommand{\resheading}[1]{%
+  \vspace{6pt}%
+  {\textbf{\large #1}}%
+  \par\vspace{4pt}}
 \newcommand{\ressubheading}[3]{
 	\noindent{#1}, \textit{#2} \hfill {#3}\par\vspace{\horse}}
 %-----------------------------------------------------------
@@ -336,10 +339,25 @@
 \resheading{Teaching}
 
 \ressubheading{Courses Taught}{University of San Francisco}{2019-Present}
-\begin{itemize*}
-\item[]{Graduate: Economics of Development (ECON 672); Microeconomics for the Digitized Economy (ECON 641); Institutions, Markets, and Platforms (ECON 640); Environmental Economics (ECON 660); Development Microeconomics (ECON 673); Economics of AI (ECON 691); Applied Economics Capstone (ECON 692); Development Economics Seminar (ECON 690).}
-\item[]{Undergraduate: Principles of Microeconomics (ECON 111); Special Topics (ECON 390).}
-\end{itemize*}
+\vspace{2pt}
+\noindent\textit{Graduate}\par\nopagebreak\vspace{3.5pt}
+\begin{tabular}{@{}l@{\hspace{1.5em}}l@{}}
+ECON 640 & Institutions, Markets, and Platforms\\
+ECON 641 & Microeconomics for the Digitized Economy\\
+ECON 660 & Environmental Economics\\
+ECON 672 & Economics of Development\\
+ECON 673 & Development Microeconomics\\
+ECON 690 & Development Economics Seminar\\
+ECON 691 & Economics of AI\\
+ECON 692 & Applied Economics Capstone\\
+\end{tabular}
+\par\vspace{4pt}
+\noindent\textit{Undergraduate}\par\nopagebreak\vspace{3.5pt}
+\begin{tabular}{@{}l@{\hspace{1.5em}}l@{}}
+ECON 111 & Principles of Microeconomics\\
+ECON 390 & Special Topics\\
+\end{tabular}
+\vspace{\horse}
 
 \ressubheading{Advising and Curriculum}{University of San Francisco}{2020-Present}
 \begin{itemize*}
