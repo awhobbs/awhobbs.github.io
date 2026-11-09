@@ -15,4 +15,4 @@ I built the original Kivy version on a tablet to play with 387 couples across 34
 
 The web port runs the same model in the browser. SimPastoralist 2 is an updated sequel I'm building with Claude Code — still a work in progress, but playable.
 
-Working paper: [Insuring the Family or the Asset? The Impact of Product Framing on Demand](/assets/pdf/Insurance_Framing_and_Demand.pdf) (under review at *The Geneva Papers on Risk and Insurance*).
+Paper: [Insuring the Family or the Asset? Framing Effects on Insurance Demand](https://doi.org/10.1057/s41288-026-00403-5), *The Geneva Papers on Risk and Insurance – Issues and Practice* (2026, open access).
